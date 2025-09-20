@@ -1,7 +1,8 @@
 "use strict";
 
 const filterByPrice = document.querySelector(".listing-controls-filter-by-price__container");
-const sortByContainer = document.querySelector(".listing-controls-sort-by");
+const sortByContainer = document.querySelector(".listing-controls-sort-by__container");
+const sortByBtn = document.querySelector(".listing-controls-sort-by");
 const listingControlsContainer = document.querySelector(".listing-controls");
 
 
@@ -69,6 +70,7 @@ const displaySelectedPriceRange = function() {
         `;
         selectedPriceRangeContainer.innerHTML = html;
         selectedPriceRange.classList.remove("hidden");
+        filterByPrice.classList.add("hidden");
   }
   
 };
@@ -90,13 +92,55 @@ const hideSelectedPriceRangeContainer = function(e) {
     
         filterByPrice.classList.add("hidden");
 
-        //????
+        //???? need it?
         filterByPrice.querySelector(".min-price").value="";
         filterByPrice.querySelector(".max-price").value="";
 
 
     }
-
 }
 selectedPriceRangeContainer.addEventListener("click", hideSelectedPriceRangeContainer);
 
+
+
+const switchActiveContainer = function(e) { 
+    if(e.target.closest(".controls-btn-price")){
+        sortByContainer.classList.add("hidden");
+    }
+    if(e.target.closest(".controls-btn-sort")){
+        filterByPrice.classList.add("hidden");
+    }
+    if((!e.target.closest(".controls-btn-sort")) && (!e.target.closest(".controls-btn-price"))){
+        filterByPrice.classList.add("hidden");
+        sortByContainer.classList.add("hidden");
+    }
+    
+}
+headingControlsContainer.addEventListener("click", switchActiveContainer);
+
+
+
+
+
+const clothingListingContainer = document.querySelector(".clothing-listing");
+const renderListing = async function () {
+    clothingListingContainer.innerHTML = "";
+  const res = await fetch(
+    "https://api.redseam.redberryinternship.ge/api/products"
+  );
+  const datas = await res.json();
+  console.log(datas);
+
+  datas.data.map(data => {
+        const html = `
+        <div class="clothing-listing__card">
+            <img src="${data.cover_image}">
+            <p>${data.name}</p>
+            <p>$ ${data.price}</p>
+        </div>
+        `;
+
+        clothingListingContainer.insertAdjacentHTML("afterbegin", html);
+    });
+};
+renderListing();

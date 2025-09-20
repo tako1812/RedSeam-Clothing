@@ -103,6 +103,7 @@ body {
   border: 0.06px solid #E1DFE1;
   padding: 0.8rem 1.5rem;
   border-radius: 18px;
+  background-color: #fff;
 }
 .section-heading-filter .heading-controls-container .container .selected-price-range-container div p {
   font-size: 1rem;
@@ -153,6 +154,7 @@ body {
   position: absolute;
   right: 0;
   top: 2rem;
+  background-color: #fff;
 }
 .section-heading-filter .heading-controls-container .wrapper .listing-controls .listing-controls-filter-by-price__container .inputs-container {
   display: flex;
@@ -203,6 +205,7 @@ body {
   position: absolute;
   right: 0;
   top: 2.3rem;
+  background-color: #fff;
 }
 .section-heading-filter .heading-controls-container .wrapper .listing-controls .listing-controls-sort-by__options {
   display: flex;
