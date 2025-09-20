@@ -1,0 +1,221 @@
+@use "global";
+@use "header";
+
+.product-details{
+    @include global.container;
+    padding:2rem 0;
+
+    p{
+      font-size: 0.875rem;
+      color: global.$text-color-dark;
+
+    }
+
+    &__container{
+        display:flex;   
+        gap:10.5rem; 
+    }
+    
+    &__gallery{
+        display:flex;
+        gap:1.5rem;
+
+        &-images{
+            display:flex;
+            flex-direction: column;
+            gap:0.5rem;
+    
+            img{
+                width:7.6rem;
+                height:10rem;
+            }
+        }
+
+        &-hero-image{
+            img{
+            width:44rem;
+            height:58rem;
+            border-radius:10px;
+
+            }
+        }
+
+    }
+    .product-description{
+        display:flex;
+        flex-direction: column;
+        gap:3.5rem;
+
+        .wrapper-color-size-quantity{
+            display:flex;
+            flex-direction: column;
+            gap:1.8rem;
+        }
+        
+        &-colors{
+
+
+            &__content{
+                display:flex;
+                gap:0.4rem;
+
+                & > div{
+                width:2.3rem;
+                height:2.3rem;
+                border-radius:50%;
+                background-color:pink;
+                }
+        
+                div:hover {
+                    
+                    outline: 2px solid #F3E7EB;
+                    outline-offset: 2px; 
+  
+                }
+            }
+            
+        }
+        &-sizes{
+
+            &__content{
+                display:flex;
+                gap:0.5rem;
+
+
+                & > div{
+                    width:4.4rem;
+                    height:2.6rem;
+                    border: 0.06px solid global.$border-color;
+                    border-radius:9px;
+                    font-size:1rem;
+                    color:global.$text-color-dark;
+                    
+
+                    display:flex;
+                    align-items: center;
+                    justify-content: center;
+
+                }
+                div:hover {
+                    border: 0.06px solid global.$text-color-dark;
+                    background-color: global.$border-color-light;
+                    
+  
+                }
+            }
+        }
+        &-quantity{
+
+
+            &__content{
+                display:flex;
+                flex-direction: column;
+
+                
+    
+
+                & > :first-child {
+                    width:4.4rem;
+                    height:2.6rem;
+                    border: 0.06px solid global.$border-color;
+                    border-radius:9px;
+                    font-size:1rem;
+                    color:global.$text-color-dark;
+
+                    display:flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap:1rem;
+                }
+                
+                & > :nth-child(2) {
+                    width:4.4rem;
+                    height:20rem;
+                    border: 0.06px solid global.$border-color;
+                    border-radius:9px;
+                    font-size:1rem;
+                    color:global.$text-color-dark;
+                    padding:0.5rem 0;
+
+                    display:flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: space-between;
+                    gap: 0.5rem;
+                    
+                }
+            }
+
+
+        }
+        
+        &-btn{
+        width: 100%;  
+        button{
+            width: 100%;
+            font-family: inherit; 
+            background-color: global.$button-background;
+            color:global.$button-color;
+            font-size: 0.9rem;
+            border-radius:10px;
+            padding:0.7rem 0;
+
+            display:flex;
+            align-items: center;
+            justify-content: center;
+            gap:0.4rem;
+            }
+            img{
+                filter: brightness(0) invert(1);
+            } 
+        }
+        &-divider{
+            width: 100%;          
+            height: 0.1rem;        
+            background-color: global.$border-color;
+            
+
+            
+        }
+        &-brand-materials{
+            display:flex;
+            flex-direction: column;
+            gap:1.1rem;
+            
+            div{
+                //width:100%;
+                display:flex;
+                justify-content: space-between;
+                align-items: center;
+                
+                .title{
+                    font-size:1.24rem;
+                    font-weight: 500;
+                }
+                img{
+                    width:6.8rem;
+                    height:3rem;
+                    
+                }
+            }
+            p{
+                font-size:1rem;
+                color:global.$text-color-light;
+            }
+        }
+        
+
+        &__title{
+            font-size:1rem;
+            color: global.$text-color-dark;
+        }
+
+
+    }
+    
+
+    
+
+
+
+}

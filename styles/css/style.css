@@ -1,0 +1,243 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #fff;
+}
+
+/*
+.link:link,
+.link:visited{
+  text-decoration: none;
+  display:inline-block;
+  cursor: pointer;
+
+}*/
+.btn {
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+.heading-primary {
+  font-size: 2.7rem;
+  font-weight: 700;
+}
+
+.heading-tertiary {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #10151F;
+}
+
+.header-container {
+  max-width: 120rem;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem 0;
+}
+.header-container .logo {
+  width: 11rem;
+  height: 1.5rem;
+}
+.header-container .nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+.header-container .nav-container img {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+.header-container .nav-container a {
+  color: #10151F;
+  font-weight: 500;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.section-heading-filter {
+  padding: 2rem 0;
+}
+.section-heading-filter .heading-controls-container {
+  max-width: 120rem;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+}
+.section-heading-filter .heading-controls-container .container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.section-heading-filter .heading-controls-container .wrapper {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  align-self: flex-start;
+}
+.section-heading-filter .heading-controls-container .wrapper > :first-child {
+  font-size: 0.8rem;
+  color: #3E424A;
+}
+.section-heading-filter .heading-controls-container .wrapper > :nth-child(2) {
+  border-left: 0.2rem solid #E1DFE1;
+  height: 1.2rem;
+}
+.section-heading-filter .heading-controls-container .wrapper .listing-controls {
+  display: flex;
+  gap: 2rem;
+}
+.section-heading-filter .heading-controls-container .wrapper .listing-controls .listing-controls-filter-by-price {
+  position: relative;
+}
+.section-heading-filter .heading-controls-container .wrapper .listing-controls .listing-controls-filter-by-price__title-container {
+  display: flex;
+  gap: 0.3rem;
+}
+.section-heading-filter .heading-controls-container .wrapper .listing-controls .listing-controls-filter-by-price__title-container img {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.section-heading-filter .heading-controls-container .wrapper .listing-controls .listing-controls-filter-by-price__container {
+  width: 24.5rem;
+  height: 10.5rem;
+  border: 0.1rem solid #E1DFE1;
+  border-radius: 8px;
+  padding: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: absolute;
+  right: 0;
+  top: 2rem;
+}
+.section-heading-filter .heading-controls-container .wrapper .listing-controls .listing-controls-filter-by-price__container .inputs-container {
+  display: flex;
+  gap: 0.8rem;
+}
+.section-heading-filter .heading-controls-container .wrapper .listing-controls .listing-controls-filter-by-price__container .inputs-container input {
+  flex: 1;
+  padding: 0.5rem 1rem;
+  border: 0.1rem solid #E1DFE1;
+  border-radius: 8px;
+  min-width: 0;
+}
+.section-heading-filter .heading-controls-container .wrapper .listing-controls .listing-controls-filter-by-price__container .inputs-btn-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.section-heading-filter .heading-controls-container .wrapper .listing-controls .listing-controls-filter-by-price__container .btn-apply {
+  font-family: inherit;
+  padding: 0.8rem 2.2rem;
+  background-color: #FF4000;
+  color: #FFf;
+  font-size: 0.9rem;
+  border-radius: 10px;
+  align-self: flex-end;
+}
+.section-heading-filter .heading-controls-container .wrapper .listing-controls .listing-controls-sort-by {
+  position: relative;
+}
+.section-heading-filter .heading-controls-container .wrapper .listing-controls .listing-controls-sort-by__title-container {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.section-heading-filter .heading-controls-container .wrapper .listing-controls .listing-controls-sort-by__title-container img {
+  width: 1.3rem;
+  height: 1.3rem;
+}
+.section-heading-filter .heading-controls-container .wrapper .listing-controls .listing-controls-sort-by__container {
+  width: 13rem;
+  height: 10rem;
+  border: 0.1rem solid #E1DFE1;
+  border-radius: 8px;
+  padding: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: absolute;
+  right: 0;
+  top: 2.3rem;
+}
+.section-heading-filter .heading-controls-container .wrapper .listing-controls .listing-controls-sort-by__options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.section-heading-filter .heading-controls-container .wrapper .listing-controls .title {
+  font-size: 1rem;
+  color: #10151F;
+}
+
+.section-clothing-listing {
+  padding: 2rem 0;
+}
+.section-clothing-listing .clothing-listing {
+  max-width: 120rem;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  row-gap: 3rem;
+}
+.section-clothing-listing .clothing-listing__card img {
+  width: 25.75rem;
+  height: 34rem;
+  border-radius: 10px;
+}
+.section-clothing-listing .clothing-listing__card > :nth-child(2) {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #10151F;
+}
+.section-clothing-listing .clothing-listing__card > :nth-child(3) {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #10151F;
+}
+
+.section-pagination {
+  padding: 2rem 0;
+}
+.section-pagination .pagination-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+.section-pagination .pagination-container__pages {
+  display: flex;
+}
+.section-pagination .pagination-container__pages div {
+  width: 2rem;
+  height: 2rem;
+  border: 0.1rem solid #F8F6F7;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.section-pagination .pagination-container__pages div:hover {
+  border: none;
+  border: 0.12rem solid #FF4000;
+  color: #FF4000;
+}
+
+.hidden {
+  display: none !important;
+}
