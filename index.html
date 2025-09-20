@@ -30,7 +30,12 @@
         <div class="heading-controls-container">
           <div class="container">
             <h1 class="heading-primary">Products</h1>
-            <button>sssss</button>
+            <div class="selected-price-range-container">
+              <div class="selected-price-range hidden">
+                <p>price: 500-700</p>
+                <img src="/img/icons/close-icon.png" class="close-icon">
+              </div>
+            </div>
 
           </div>
 
@@ -40,7 +45,7 @@
 
             <div class="listing-controls">
               <div class="listing-controls-filter-by-price">
-                <div class="listing-controls-filter-by-price__title-container">
+                <div class="listing-controls-filter-by-price__title-container controls-btn">
                   <img src="./img/icons/adjustments-horizontal.png">
                   <p class="title">Filter</p>
                 </div>
@@ -48,15 +53,15 @@
                   <p class="heading-tertiary">Select price</p>
                   <div class="inputs-btn-container">
                     <div class="inputs-container">
-                      <input type="number" min="0" max="1000" step="1" placeholder="From *" >
-                      <input type="number" min="0" max="1000" step="1" placeholder="To *" >
+                      <input type="number" min="0" max="1000" step="1" placeholder="From *" class="min-price">
+                      <input type="number" min="0" max="1000" step="1" placeholder="To *" class="max-price" >
                     </div>
                     <button class="btn btn-apply">Apply</button>
                   </div>
                 </div>
               </div>
               <div class="listing-controls-sort-by">
-                <div class="listing-controls-sort-by__title-container">
+                <div class="listing-controls-sort-by__title-container controls-btn">
                   <p class="title">Sort by</p>
                   <img src="./img/icons/chevron-down.png">
                 </div>
@@ -132,8 +137,8 @@
 
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>  
-    <script src="./js/script.js"></script>
-    <script src="./js/createEmployee.js"></script>
-    <script src="./js/addedTasks.js"></script>
+
+    
+    <script src="js/productsListing.js"></script>
   </body>
 </html>
