@@ -258,7 +258,7 @@ body {
 .section-pagination .pagination-container__pages div {
   width: 2rem;
   height: 2rem;
-  border: 0.1rem solid #F8F6F7;
+  border: 0.2rem solid #F8F6F7;
   border-radius: 4px;
   font-size: 0.875rem;
   display: flex;
@@ -267,6 +267,12 @@ body {
 }
 .section-pagination .pagination-container__pages div:hover {
   border: none;
+  border: 0.12rem solid #FF4000;
+  color: #FF4000;
+}
+
+.active {
+  border-color: none;
   border: 0.12rem solid #FF4000;
   color: #FF4000;
 }

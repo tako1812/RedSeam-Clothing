@@ -217,7 +217,7 @@
       div{
         width:2rem;
         height:2rem;
-        border: 0.1rem solid global.$border-color-light;
+        border: 0.2rem solid global.$border-color-light;
         border-radius: 4px; 
         font-size: 0.875rem;
   
@@ -234,5 +234,10 @@
   }
 }
 
+.active{
+  border-color: none;
+  border:0.12rem solid global.$button-background;
+  color: global.$button-background;
+}
 
 
