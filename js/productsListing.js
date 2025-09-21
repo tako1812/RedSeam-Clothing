@@ -57,7 +57,7 @@ const btnApply = document.querySelector(".btn-apply");
 
 
 const selectedPriceRange = document.querySelector(".selected-price-range");
-const displaySelectedPriceRange = function() {
+const displaySelectedPriceRange = async function() {
 
 
     if ((minPrice > 0 && maxPrice > 0) && (minPrice < maxPrice)) { 
@@ -72,6 +72,10 @@ const displaySelectedPriceRange = function() {
         selectedPriceRange.classList.remove("hidden");
         filterByPrice.classList.add("hidden");
   }
+  /*const filteredlisting = await fetchFilteredData();
+  console.log(filteredlisting);
+  renderListingWithPagination(1, filteredlisting);*/
+
   
 };
 btnApply.addEventListener("click", displaySelectedPriceRange);
@@ -110,66 +114,15 @@ const switchActiveContainer = function(e) {
     if(e.target.closest(".controls-btn-sort")){
         filterByPrice.classList.add("hidden");
     }
-    if((!e.target.closest(".controls-btn-sort")) && (!e.target.closest(".controls-btn-price"))){
+    /*if((!e.target.closest(".controls-btn-sort")) && (!e.target.closest(".controls-btn-price"))){
         filterByPrice.classList.add("hidden");
         sortByContainer.classList.add("hidden");
-    }
+    }*/
     
 }
 headingControlsContainer.addEventListener("click", switchActiveContainer);
 
 
-/*
-const paginationContainer =document.querySelector(".pagination-container__pages");
-let datas;
-const clothingListingContainer = document.querySelector(".clothing-listing");
-
-const renderListingWithPagination = async function () {
-    clothingListingContainer.innerHTML = "";
-  const res = await fetch(
-    "https://api.redseam.redberryinternship.ge/api/products"
-  );
-  datas = await res.json();
-  console.log(datas);
-
-  datas.data.map(data => {
-        const html = `
-        <div class="clothing-listing__card">
-            <img src="${data.cover_image}">
-            <p>${data.name}</p>
-            <p>$ ${data.price}</p>
-        </div>
-        `;
-        clothingListingContainer.insertAdjacentHTML("afterbegin", html);
-    });
-
-        const html = `
-            <div class="page" data-page="1">1</div>
-            <div class="page" data-page="2">2</div>
-            <div class="dots">...</div>
-            <div class="page" data-page="${datas.meta.last_page - 1}">${datas.meta.last_page - 1}</div>
-            <div class="page" data-page="${datas.meta.last_page}">${datas.meta.last_page}</div>
-        `;
-        paginationContainer .innerHTML = html;
-};
-renderListingWithPagination();
-
-
-
-const switchPages = function() {
-
-    let currentPage = 1; 
-    //const lastPage = datas.meta.last_page; 
-
-
-    const pageNum = e.target.closest(".page");
-    if (!pageNum) return;
-    const page = Number(pageBtn.dataset.page);
-    currentPage = page;
-    fetchAndRenderPage(currentPage); // call your function to fetch data for that page
-}
-paginationContainer.addEventListener("click", renderPaginationPages);
-*/
 
 
 
@@ -180,58 +133,66 @@ const paginationContainer =document.querySelector(".pagination-container__pages"
 let datas;
 const clothingListingContainer = document.querySelector(".clothing-listing");
 let currentPage = 1;
+let lastPage = 1;
 //let currentPage = 1; // keep it outside so it persists
 
 
-const renderListingWithPagination = async function (page = 1) {
+
+const fetchData = async function (UI, page = 1) {
+    const res = await fetch(UI + page);
+  const datas = await res.json();
+  return datas;
+}
+
+
+const renderListing= function (data){
     clothingListingContainer.innerHTML = "";
-  const res = await fetch(
-    (`https://api.redseam.redberryinternship.ge/api/products?page=${page}`)
-    );
-  datas = await res.json();
-  console.log(datas);
 
-  datas.data.map(data => {
-        const html = `
-        <div class="clothing-listing__card">
-            <img src="${data.cover_image}">
-            <p>${data.name}</p>
-            <p>$ ${data.price}</p>
-        </div>
-        `;
-        clothingListingContainer.insertAdjacentHTML("afterbegin", html);
-    });
-
-      /* const html = `
-            <div class="page" data-page="1">1</div>
-            <div class="page" data-page="2">2</div>
-            <div class="dots">...</div>
-            <div class="page" data-page="${datas.meta.last_page - 1}">${datas.meta.last_page - 1}</div>
-            <div class="page" data-page="${datas.meta.last_page}">${datas.meta.last_page}</div>
-        `;
-        paginationContainer .innerHTML = html;*/
-
-
-
-
-    const lastPage = datas.meta.last_page;
-
-    let html = '';
-    for(let i = 1; i <= lastPage; i++) {
-        html += `<div  class="page ${currentPage === i ? "active" : ""}" data-page="${i}">${i}</div>`;
-
-        if(i > 1 && i < lastPage - 2) {
-            html += `<div class="dots">...</div>`;
-            i = lastPage - 2; 
-        }
-    };
-    
-    paginationContainer.innerHTML = html;
+    data.data.forEach(data => {
+    const html = `
+      <div class="clothing-listing__card">
+          <img src="${data.cover_image}">
+          <p>${data.name}</p>
+          <p>$ ${data.price}</p>
+      </div>
+    `;
+    clothingListingContainer.insertAdjacentHTML("afterbegin", html);
+  });
 
 };
-renderListingWithPagination();
+
+const renderPagination = function(lastPage){
+
+    let html = '';
+  for (let i = 1; i <= lastPage; i++) {
+    html += `<div class="page ${currentPage === i ? "active" : ""}" data-page="${i}">${i}</div>`;
     
-    
+    if (i > 1 && i < lastPage - 2) {
+      html += `<div class="dots">...</div>`;
+      i = lastPage - 2;
+    }
+  }
+  paginationContainer.innerHTML = html;
+
+}
+
+
+
+
+
+const renderInitialListing = async function (page = 1) {
+
+    const fetchedData = await fetchData(`https://api.redseam.redberryinternship.ge/api/products?page=`, page);
+    console.log(fetchedData);
+    renderListing(fetchedData);
+    lastPage = fetchedData.meta.last_page;
+    renderPagination(lastPage);
+
+
+};
+renderInitialListing();
+
+
 
 const switchPages = function(e) {
 
@@ -245,14 +206,75 @@ const switchPages = function(e) {
         if (page === currentPage) return;
     
         currentPage = page;
-        renderListingWithPagination(currentPage);
-
-
-
+  
+        renderInitialListing(currentPage);
     }
- 
-    
 }
 paginationContainer.addEventListener("click", switchPages);
+
+
+const NextPageBtn = document.querySelector(".pageNext");
+const PrevPageBtn = document.querySelector(".pagePrev");
+
+const moveToNextPage = function(e) {
+
+    const secondDiv = paginationContainer.querySelector("div:nth-child(2)");
+    if(e.target.classList.contains("pageNext")){
+        if (currentPage === lastPage) return;
+        if(currentPage < lastPage){
+            currentPage++;
+            //renderListingWithPagination(currentPage);   renderInitialListing 
+            renderInitialListing(currentPage);
+
+        }  
+    }
+
+
+};
+NextPageBtn.addEventListener("click", moveToNextPage);
+
+
+const moveToPrevPage = function(e) {
+    if(e.target.classList.contains("pagePrev")){
+        if (currentPage === 0) return;
+        if(currentPage > 0){
+            currentPage--;
+            //renderListingWithPagination(currentPage);
+            renderInitialListing(currentPage);
+        }  
+    }
+};
+PrevPageBtn.addEventListener("click", moveToPrevPage);
+
+
+
+
+
+
+const fetchFilteredData = async function () {
+    let listigsData = [];
+    for(let i = 0; i <= lastPage; i++ ){
+        const res = await fetch(
+        (`https://api.redseam.redberryinternship.ge/api/products?page=${i}`)
+        );
+      datas = await res.json();
+        listigsData.push(datas);
+        
+    }
+    console.log(listigsData);
+    const filteredlisting= listigsData.flatMap(data => {
+        const result = data.data.filter(item => {
+            return item.price >= minPrice && item.price <= maxPrice
+
+        })
+
+        return result;
+     });
+        console.log(filteredlisting);
+        return filteredlisting;
+        //item.price >= Number(minPrice) && item.price <= Number(maxPrice));
+    
+}
+
 
 
