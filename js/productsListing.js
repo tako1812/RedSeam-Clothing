@@ -24,42 +24,38 @@ listingControlsContainer.addEventListener("click", toggleListingControls);
 const filterByPriceContainer = document.querySelector(".listing-controls-filter-by-price");
 let minPrice=0;
 let maxPrice=0;
-const savePriceRange = function(e) {
-    if(e.target.closest(".min-price")){
-        const clicked = e.target.closest(".min-price");
-        const userInput = clicked.value;
-        minPrice=Number(userInput);
-    }
-    if(e.target.closest(".max-price")){
-        const clicked = e.target.closest(".max-price");
-        const userInput = clicked.value;
-        maxPrice=Number(userInput);
-    }
-};
-/*
+
+
 const savePriceRange = function() {
     const minInput = filterByPriceContainer.querySelector(".min-price").value;
     const maxInput = filterByPriceContainer.querySelector(".max-price").value;
 
     minPrice = minInput;
     maxPrice = maxInput;
-
-    //console.log("Min:", minPrice, "Max:", maxPrice);
 };
-*/
-
 filterByPriceContainer .addEventListener("input", savePriceRange);
+
+
+
+let currentPage = 1;
+let lastPage = 1;
+let isFilteredMode = false;
+let isSortingMode = false;
+let filteredResults = [];
+
+function getItemsForPage(data, page = 1, perPage = 10) {
+  const start = (page - 1) * perPage;
+  const end = start + perPage;
+  return data.slice(start, end);
+}
 
 
 const selectedPriceRangeContainer = document.querySelector(".selected-price-range-container");
 const btnApply = document.querySelector(".btn-apply");
 
-
-
 const selectedPriceRange = document.querySelector(".selected-price-range");
+
 const displaySelectedPriceRange = async function() {
-
-
     if ((minPrice > 0 && maxPrice > 0) && (minPrice < maxPrice)) { 
     const html = ` 
             <div class="selected-price-range">
@@ -72,11 +68,14 @@ const displaySelectedPriceRange = async function() {
         selectedPriceRange.classList.remove("hidden");
         filterByPrice.classList.add("hidden");
   }
-  /*const filteredlisting = await fetchFilteredData();
-  console.log(filteredlisting);
-  renderListingWithPagination(1, filteredlisting);*/
-
   
+    isFilteredMode = true;
+    const filteredlistingData = await filterListingsByPrice();   
+    //const filteredlistingData = await fetchFilteredData();
+    filteredResults = filteredlistingData;
+    console.log(filteredResults);
+    renderFilterWithPagination(filteredResults, undefined);
+
 };
 btnApply.addEventListener("click", displaySelectedPriceRange);
 
@@ -90,21 +89,17 @@ const hideSelectedPriceRangeContainer = function(e) {
     const selectedPriceRange=document.querySelector(".selected-price-range");
     
     if(e.target.classList.contains("close-icon")){
-       //selectedPriceRange.remove();
-       selectedPriceRange.classList.add("hidden");
-
     
+        selectedPriceRange.classList.add("hidden");
         filterByPrice.classList.add("hidden");
 
         //???? need it?
         filterByPrice.querySelector(".min-price").value="";
         filterByPrice.querySelector(".max-price").value="";
-
-
+        renderListingWithPagination();
     }
 }
 selectedPriceRangeContainer.addEventListener("click", hideSelectedPriceRangeContainer);
-
 
 
 const switchActiveContainer = function(e) { 
@@ -114,10 +109,11 @@ const switchActiveContainer = function(e) {
     if(e.target.closest(".controls-btn-sort")){
         filterByPrice.classList.add("hidden");
     }
-    /*if((!e.target.closest(".controls-btn-sort")) && (!e.target.closest(".controls-btn-price"))){
+    /*if((!e.target.closest(".controls-btn-sort")) || (!e.target.closest(".controls-btn-price")) ||
+    (!e.target.closest(".min-price")) || (!e.target.closest(".max-price"))){
         filterByPrice.classList.add("hidden");
         sortByContainer.classList.add("hidden");
-    }*/
+    };*/
     
 }
 headingControlsContainer.addEventListener("click", switchActiveContainer);
@@ -128,27 +124,75 @@ headingControlsContainer.addEventListener("click", switchActiveContainer);
 
 
 
-
 const paginationContainer =document.querySelector(".pagination-container__pages");
 let datas;
 const clothingListingContainer = document.querySelector(".clothing-listing");
-let currentPage = 1;
-let lastPage = 1;
-//let currentPage = 1; // keep it outside so it persists
 
 
 
-const fetchData = async function (UI, page = 1) {
+const fetchDataaa = async function (UI, page = 1) {
     const res = await fetch(UI + page);
   const datas = await res.json();
   return datas;
 }
 
+const fetchData = async function (URL, page = 1) {
+    const res = await fetch(`${URL}?page=${page}`);
+  const datas = await res.json();
+  return datas;
+}
 
-const renderListing= function (data){
+
+const renderListingWithPagination = async function (page = 1) {
     clothingListingContainer.innerHTML = "";
+    const fetchedData = await fetchData(`https://api.redseam.redberryinternship.ge/api/products?page=`, page);
+  
+    fetchedData.data.map(data => {
+          const html = `
+          <div class="clothing-listing__card">
+              <img src="${data.cover_image}">
+              <p>${data.name}</p>
+              <p>$ ${data.price}</p>
+          </div>
+          `;
+          clothingListingContainer.insertAdjacentHTML("afterbegin", html);
+      });
 
-    data.data.forEach(data => {
+     lastPage = fetchedData.meta.last_page;
+
+    let html = '';
+    for(let i = 1; i <= lastPage; i++) {
+        html += `<div  class="page ${currentPage === i ? "active" : ""}" data-page="${i}">${i}</div>`;
+
+        if(i > 1 && i < lastPage - 2) {
+            html += `<div class="dots">...</div>`;
+            i = lastPage - 2; 
+        }
+         //if(i > 2 && i < lastPage - 2) {
+          //  const html = `
+          //  <div class="page" data-page="1">1</div>
+          //  <div class="page" data-page="2">${currentPage}</div>
+           // `;
+           // paginationContainer .insertAdjacentHTML("afterbegin", html);
+    
+        }
+        paginationContainer.innerHTML = html;
+};
+renderListingWithPagination();
+
+
+
+
+const renderFilterWithPagination= function (data, page = 1) {
+
+     clothingListingContainer.innerHTML = "";
+
+
+    const items = getItemsForPage(filteredResults, currentPage, 10);
+    //const items = getItemsForPage(data, currentPage, 10);
+ 
+    
+    items.forEach(data => {
     const html = `
       <div class="clothing-listing__card">
           <img src="${data.cover_image}">
@@ -159,44 +203,64 @@ const renderListing= function (data){
     clothingListingContainer.insertAdjacentHTML("afterbegin", html);
   });
 
-};
 
-const renderPagination = function(lastPage){
+    lastPage = filteredResults.length / 10;
+    if (filteredResults.length % 10 !== 0) lastPage += 1; 
 
-    let html = '';
-  for (let i = 1; i <= lastPage; i++) {
-    html += `<div class="page ${currentPage === i ? "active" : ""}" data-page="${i}">${i}</div>`;
-    
-    if (i > 1 && i < lastPage - 2) {
-      html += `<div class="dots">...</div>`;
-      i = lastPage - 2;
+   let html = '';
+    for(let i = 1; i <= lastPage; i++) {
+        html += `<div  class="page ${currentPage === i ? "active" : ""}" data-page="${i}">${i}</div>`;
+
+        if(i > 1 && i < lastPage - 2) {
+            html += `<div class="dots">...</div>`;
+            i = lastPage - 2; 
+        }
     }
-  }
-  paginationContainer.innerHTML = html;
-
-}
-
-
-
-
-
-const renderInitialListing = async function (page = 1) {
-
-    const fetchedData = await fetchData(`https://api.redseam.redberryinternship.ge/api/products?page=`, page);
-    console.log(fetchedData);
-    renderListing(fetchedData);
-    lastPage = fetchedData.meta.last_page;
-    renderPagination(lastPage);
-
-
+    paginationContainer.innerHTML = html;
 };
-renderInitialListing();
+
+const renderSortWithReleaseYear= function (data, page = 1) {
+
+    clothingListingContainer.innerHTML = "";
+
+    const items = getItemsForPage(dataSortByReleaseYear, currentPage, 10);
+    //const items = getItemsForPage(data, currentPage, 10);
+ 
+    
+    items.forEach(data => {
+    const html = `
+      <div class="clothing-listing__card">
+          <img src="${data.cover_image}">
+          <p>${data.name}</p>
+          <p>$ ${data.price}</p>
+      </div>
+    `;
+    clothingListingContainer.insertAdjacentHTML("afterbegin", html);
+  });
+
+
+    lastPage = dataSortByReleaseYear.length / 10;
+    if (dataSortByReleaseYear.length % 10 !== 0) lastPage += 1; 
+
+   let html = '';
+    for(let i = 1; i <= lastPage; i++) {
+        html += `<div  class="page ${currentPage === i ? "active" : ""}" data-page="${i}">${i}</div>`;
+
+        if(i > 1 && i < lastPage - 2) {
+            html += `<div class="dots">...</div>`;
+            i = lastPage - 2; 
+        }
+    }
+    paginationContainer.innerHTML = html;
+};
 
 
 
-const switchPages = function(e) {
 
-    let cuurrentPage = 1;
+
+
+const moveToNextPageWithBtn = function(e) {
+    let currentPage = 1;
     console.log(e.target);
     
     if(e.target.classList.contains("page")){
@@ -207,29 +271,45 @@ const switchPages = function(e) {
     
         currentPage = page;
   
-        renderInitialListing(currentPage);
+        if(isFilteredMode) {
+            renderFilterWithPagination(undefined, currentPage);
+        } else {
+            renderListingWithPagination(currentPage);
+        }
+
+        window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+        });
     }
 }
-paginationContainer.addEventListener("click", switchPages);
+paginationContainer.addEventListener("click", moveToNextPageWithBtn);
 
 
 const NextPageBtn = document.querySelector(".pageNext");
 const PrevPageBtn = document.querySelector(".pagePrev");
 
 const moveToNextPage = function(e) {
-
     const secondDiv = paginationContainer.querySelector("div:nth-child(2)");
     if(e.target.classList.contains("pageNext")){
         if (currentPage === lastPage) return;
         if(currentPage < lastPage){
             currentPage++;
-            //renderListingWithPagination(currentPage);   renderInitialListing 
-            renderInitialListing(currentPage);
+            
+             if(isFilteredMode) {
+            renderFilterWithPagination(undefined, currentPage);
+            } if(isSortingMode) {
+            renderSortWithReleaseYear(undefined, currentPage);
+            } else {
+            renderListingWithPagination(currentPage);
+            }
 
+            window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+            });
         }  
     }
-
-
 };
 NextPageBtn.addEventListener("click", moveToNextPage);
 
@@ -239,9 +319,19 @@ const moveToPrevPage = function(e) {
         if (currentPage === 0) return;
         if(currentPage > 0){
             currentPage--;
-            //renderListingWithPagination(currentPage);
-            renderInitialListing(currentPage);
+            
+            if(isFilteredMode) {
+            renderFilterWithPagination(undefined, currentPage);
+            } else {
+            renderListingWithPagination(currentPage);
+            }
+
+            window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+            });
         }  
+
     }
 };
 PrevPageBtn.addEventListener("click", moveToPrevPage);
@@ -251,30 +341,60 @@ PrevPageBtn.addEventListener("click", moveToPrevPage);
 
 
 
-const fetchFilteredData = async function () {
+
+
+
+
+
+
+
+
+
+const filterListingsByPrice = async function () {
     let listigsData = [];
-    for(let i = 0; i <= lastPage; i++ ){
+    for(let i = 1; i <= lastPage; i++ ){
+    
         const res = await fetch(
         (`https://api.redseam.redberryinternship.ge/api/products?page=${i}`)
         );
       datas = await res.json();
-        listigsData.push(datas);
-        
+      listigsData.push(datas);
     }
     console.log(listigsData);
     const filteredlisting= listigsData.flatMap(data => {
         const result = data.data.filter(item => {
             return item.price >= minPrice && item.price <= maxPrice
-
-        })
-
+        });
         return result;
      });
-        console.log(filteredlisting);
+     console.log(filteredlisting);
         return filteredlisting;
-        //item.price >= Number(minPrice) && item.price <= Number(maxPrice));
+};
+
+
+
+const sortByDateBtn = document.querySelector(".listing-controls-sort-by-date")
+
+
+let dataSortByReleaseYear = [];
+const SortListingByPrice = async function (page = 1) {
+    let listigsData = [];
+    for(let i = 0; i <= lastPage; i++ ){
+      const fechedData = await fetchData(`https://api.redseam.redberryinternship.ge/api/products?page=${i}`)
+        listigsData.push(fechedData);
+        
+    }
+    console.log(listigsData);
+
+
+    const sortByReleaseYear= listigsData.flatMap(obj => obj.data).sort((a,b) => Number(b.release_year) - Number(a.release_year));
+    console.log(sortByReleaseYear);
+    dataSortByReleaseYear = sortByReleaseYear;
+    isSortingMode = true;
+    renderSortWithReleaseYear(sortByReleaseYear);
     
-}
+};
+sortByDateBtn.addEventListener("click", SortListingByPrice);
 
 
 
