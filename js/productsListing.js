@@ -17,10 +17,6 @@ const toggleListingControls= function(e) {
 listingControlsContainer.addEventListener("click", toggleListingControls);
 
 
-
-
-
-
 const filterByPriceContainer = document.querySelector(".listing-controls-filter-by-price");
 let minPrice=0;
 let maxPrice=0;
@@ -40,7 +36,10 @@ filterByPriceContainer .addEventListener("input", savePriceRange);
 let currentPage = 1;
 let lastPage = 1;
 let isFilteredMode = false;
-let isSortingMode = false;
+let isSortingModeReleaseedYear = false;
+let isSortingModeLowToHigh = false;
+let isSortingModeHighToLow = false;
+
 let filteredResults = [];
 
 function getItemsForPage(data, page = 1, perPage = 10) {
@@ -219,14 +218,10 @@ const renderFilterWithPagination= function (data, page = 1) {
     paginationContainer.innerHTML = html;
 };
 
-const renderSortWithReleaseYear= function (data, page = 1) {
 
+const renderSortedByReleaseYear= function (page = 1) {
     clothingListingContainer.innerHTML = "";
-
-    const items = getItemsForPage(dataSortByReleaseYear, currentPage, 10);
-    //const items = getItemsForPage(data, currentPage, 10);
- 
-    
+    const items = getItemsForPage(dataSortByReleaseYear, page, 10);
     items.forEach(data => {
     const html = `
       <div class="clothing-listing__card">
@@ -235,13 +230,9 @@ const renderSortWithReleaseYear= function (data, page = 1) {
           <p>$ ${data.price}</p>
       </div>
     `;
-    clothingListingContainer.insertAdjacentHTML("afterbegin", html);
+    clothingListingContainer.insertAdjacentHTML("beforeend", html);
   });
-
-
-    lastPage = dataSortByReleaseYear.length / 10;
-    if (dataSortByReleaseYear.length % 10 !== 0) lastPage += 1; 
-
+   lastPage = allListingData.length;
    let html = '';
     for(let i = 1; i <= lastPage; i++) {
         html += `<div  class="page ${currentPage === i ? "active" : ""}" data-page="${i}">${i}</div>`;
@@ -259,6 +250,64 @@ const renderSortWithReleaseYear= function (data, page = 1) {
 
 
 
+const renderSortedByLowToHigh= function (page = 1) {
+    clothingListingContainer.innerHTML = "";
+    const items = getItemsForPage(dataSortByLowToHigh, page, 10);  
+    items.forEach(data => {
+    const html = `
+      <div class="clothing-listing__card">
+          <img src="${data.cover_image}">
+          <p>${data.name}</p>
+          <p>$ ${data.price}</p>
+      </div>
+    `;
+    clothingListingContainer.insertAdjacentHTML("beforeend", html);
+  });
+
+    lastPage = allListingData.length;
+   let html = '';
+    for(let i = 1; i <= lastPage; i++) {
+        html += `<div  class="page ${currentPage === i ? "active" : ""}" data-page="${i}">${i}</div>`;
+
+        if(i > 1 && i < lastPage - 2) {
+            html += `<div class="dots">...</div>`;
+            i = lastPage - 2; 
+        }
+    }
+    paginationContainer.innerHTML = html;
+};
+
+
+const renderSortedByHighToLow= function (page = 1) {
+    clothingListingContainer.innerHTML = "";
+    const items = getItemsForPage(dataSortByHighToLow, page, 10);
+    items.forEach(data => {
+    const html = `
+      <div class="clothing-listing__card">
+          <img src="${data.cover_image}">
+          <p>${data.name}</p>
+          <p>$ ${data.price}</p>
+      </div>
+    `;
+    clothingListingContainer.insertAdjacentHTML("beforeend", html);
+  });
+    lastPage = allListingData.length;
+   let html = '';
+    for(let i = 1; i <= lastPage; i++) {
+        html += `<div  class="page ${currentPage === i ? "active" : ""}" data-page="${i}">${i}</div>`;
+
+        if(i > 1 && i < lastPage - 2) {
+            html += `<div class="dots">...</div>`;
+            i = lastPage - 2; 
+        }
+    }
+    paginationContainer.innerHTML = html;
+};
+
+
+
+
+
 const moveToNextPageWithBtn = function(e) {
     let currentPage = 1;
     console.log(e.target);
@@ -268,15 +317,19 @@ const moveToNextPageWithBtn = function(e) {
         if (!pageNum) return;
         const page = Number(pageNum.dataset.page);
         if (page === currentPage) return;
-    
         currentPage = page;
   
         if(isFilteredMode) {
-            renderFilterWithPagination(undefined, currentPage);
-        } else {
-            renderListingWithPagination(currentPage);
+        renderFilterWithPagination(undefined, currentPage);
+        } else if(isSortingModeReleaseedYear) {
+        renderSortedByReleaseYear(currentPage);
+        }else if(isSortingModeLowToHigh) {
+        renderSortedByLowToHigh(currentPage);
+        }else if(isSortingModeHighToLow) {
+        renderSortedByHighToLow(currentPage);
+        }else {
+        renderListingWithPagination(currentPage);
         }
-
         window.scrollTo({
                 top: 0,
                 behavior: "smooth"
@@ -296,17 +349,20 @@ const moveToNextPage = function(e) {
         if(currentPage < lastPage){
             currentPage++;
             
-             if(isFilteredMode) {
+            if(isFilteredMode) {
             renderFilterWithPagination(undefined, currentPage);
-            } if(isSortingMode) {
-            renderSortWithReleaseYear(undefined, currentPage);
-            } else {
+            } else if(isSortingModeReleaseedYear) {
+            renderSortedByReleaseYear(currentPage);
+            }else if(isSortingModeLowToHigh) {
+            renderSortedByLowToHigh(currentPage);
+            }else if(isSortingModeHighToLow) {
+            renderSortedByHighToLow(currentPage);
+            }else {
             renderListingWithPagination(currentPage);
             }
-
             window.scrollTo({
-                    top: 0,
-                    behavior: "smooth"
+                top: 0,
+                 behavior: "smooth"
             });
         }  
     }
@@ -322,13 +378,18 @@ const moveToPrevPage = function(e) {
             
             if(isFilteredMode) {
             renderFilterWithPagination(undefined, currentPage);
-            } else {
+            } else if(isSortingModeReleaseedYear) {
+            renderSortedByReleaseYear(currentPage);
+            }else if(isSortingModeLowToHigh) {
+            renderSortedByLowToHigh(currentPage);
+            }else if(isSortingModeHighToLow) {
+            renderSortedByHighToLow(currentPage);
+            }else {
             renderListingWithPagination(currentPage);
             }
-
             window.scrollTo({
-                    top: 0,
-                    behavior: "smooth"
+                top: 0,
+                 behavior: "smooth"
             });
         }  
 
@@ -372,29 +433,57 @@ const filterListingsByPrice = async function () {
 };
 
 
+const sortByOptionsContainer = document.querySelector(".listing-controls-sort-by__options");
 
-const sortByDateBtn = document.querySelector(".listing-controls-sort-by-date")
 
-
+const allListingData = [];
 let dataSortByReleaseYear = [];
-const SortListingByPrice = async function (page = 1) {
+let dataSortByLowToHigh = [];
+let dataSortByHighToLow = [];
+
+
+
+const SortListingByPrice = async function (e, page = 1) {
     let listigsData = [];
-    for(let i = 0; i <= lastPage; i++ ){
-      const fechedData = await fetchData(`https://api.redseam.redberryinternship.ge/api/products?page=${i}`)
-        listigsData.push(fechedData);
-        
+    for(let i = 1; i <= lastPage; i++ ){
+        const res = await fetch(
+        (`https://api.redseam.redberryinternship.ge/api/products?page=${i}`)
+        );
+      datas = await res.json();
+      listigsData.push(datas);
+      allListingData.push(datas);
     }
-    console.log(listigsData);
+        console.log(listigsData);
 
 
-    const sortByReleaseYear= listigsData.flatMap(obj => obj.data).sort((a,b) => Number(b.release_year) - Number(a.release_year));
-    console.log(sortByReleaseYear);
-    dataSortByReleaseYear = sortByReleaseYear;
-    isSortingMode = true;
-    renderSortWithReleaseYear(sortByReleaseYear);
+    if(e.target.classList.contains("listing-controls-sort-by-releasedYear")){
+        const sortedData= listigsData.flatMap(obj => obj.data).sort((a,b) => Number(b.release_year) - Number(a.release_year));
+        dataSortByReleaseYear = sortedData;
+        isSortingModeReleaseedYear = true;
+        renderSortedByReleaseYear();
+    }    
     
+
+    if(e.target.classList.contains("listing-controls-sort-by-HighToLow")){
+        console.log(333);
+        const sortedData= listigsData.flatMap(obj => obj.data).sort((a,b) => Number(b.price) - Number(a.price));
+        dataSortByHighToLow = sortedData;
+        isSortingModeHighToLow = true;
+        renderSortedByHighToLow();
+    }    
+        
+    if(e.target.classList.contains("listing-controls-sort-by-LowToHigh")){
+        console.log(444);
+        const sortedData= listigsData.flatMap(obj => obj.data).sort((a,b) => Number(a.price) - Number(b.price));
+        dataSortByLowToHigh  = sortedData;
+        isSortingModeLowToHigh = true;
+        renderSortedByLowToHigh(); 
+    }    
 };
-sortByDateBtn.addEventListener("click", SortListingByPrice);
+sortByOptionsContainer.addEventListener("click", SortListingByPrice);
+
+
+
 
 
 
