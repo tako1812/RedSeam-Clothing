@@ -148,7 +148,7 @@ const renderListingWithPagination = async function (page = 1) {
   
     fetchedData.data.map(data => {
           const html = `
-          <div class="clothing-listing__card">
+          <div class="clothing-listing__card" dataset = ${data.id}>
               <img src="${data.cover_image}">
               <p>${data.name}</p>
               <p>$ ${data.price}</p>
@@ -176,6 +176,16 @@ const renderListingWithPagination = async function (page = 1) {
     
         }
         paginationContainer.innerHTML = html;
+
+    
+    const cards = document.querySelectorAll(".clothing-listing__card");
+    cards.forEach((card) =>
+      card.addEventListener("click", function () {
+        window.location.href="./pages/product-details.html";
+        const pageId = card.getAttribute("dataset");
+        localStorage.setItem("page-id", pageId);
+      })
+    );
 };
 renderListingWithPagination();
 

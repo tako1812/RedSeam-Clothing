@@ -1,0 +1,168 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #fff;
+}
+
+/*
+.link:link,
+.link:visited{
+  text-decoration: none;
+  display:inline-block;
+  cursor: pointer;
+
+}*/
+.btn {
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+.heading-primary {
+  font-size: 2.7rem;
+  font-weight: 700;
+}
+
+.heading-secondary {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #10151F;
+}
+
+.heading-tertiary {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #10151F;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.remove {
+  opacity: 0;
+}
+
+.header-container {
+  max-width: 120rem;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem 0;
+}
+.header-container .logo {
+  width: 11rem;
+  height: 1.5rem;
+}
+.header-container .nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+.header-container .nav-container img {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+.header-container .nav-container a {
+  color: #10151F;
+  font-weight: 500;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.section-login {
+  display: flex;
+  gap: 11rem;
+  height: 90.6vh;
+}
+.section-login img {
+  width: 60rem;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.section-login .input-btn-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2.8rem;
+}
+.section-login .inputs-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+.section-login .login {
+  display: flex;
+  flex-direction: column;
+  width: 37rem;
+  height: 25rem;
+  gap: 3rem;
+  align-self: center;
+}
+.section-login .login__input-wrapper {
+  position: relative;
+  display: inline-block;
+}
+.section-login .login__input-wrapper .icon {
+  position: absolute;
+  left: 32px;
+  top: 6%;
+  pointer-events: none;
+  font-size: 12px;
+  color: #FF4000;
+}
+.section-login .login__input-wrapper .icon__password {
+  left: 45px;
+}
+.section-login .login__input-wrapper .icon__eye {
+  width: 1.25rem;
+  height: 1.25rem;
+  position: absolute;
+  right: 10px;
+  top: 30%;
+}
+.section-login .login__input-wrapper input {
+  width: 100%;
+  border: 0.2px solid #E1DFE1;
+  padding: 0.8rem 0.7rem;
+  font-size: 0.8rem;
+  border-radius: 0.5rem;
+}
+.section-login .login .btn-text-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  align-items: center;
+}
+.section-login .login .btn-text-container .btn-account {
+  width: 100%;
+  padding: 1rem 0;
+  background-color: #FF4000;
+  color: #FFf;
+  font-size: 0.9rem;
+  border-radius: 10px;
+}
+.section-login .login .btn-text-container .auth-switch {
+  font-size: 0.875rem;
+  color: #3E424A;
+}
+.section-login .login .btn-text-container .auth-switch a {
+  text-decoration: none;
+  color: #FF4000;
+}
+.section-login .ddd {
+  width: 2rem;
+  height: 2rem;
+}
