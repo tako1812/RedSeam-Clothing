@@ -1,6 +1,7 @@
 @use "global";
 @use "header";
 
+
 .section-user-auth{
     display:flex;
     gap:11rem;
@@ -12,14 +13,11 @@
         height: 100%;   
         object-fit: cover;
     }
-
-
     .input-btn-container{
         display:flex;
         flex-direction: column;
         gap:2.8rem;
     }
-
     .inputs-container{
         display:flex;
         flex-direction: column;
@@ -27,11 +25,53 @@
     }
     .user-auth{
         display:flex;
-        flex-direction: column;
+        flex-direction:column;
         width:37rem;
-        height: 25rem;
-        gap:3rem;
+        height: 30rem;
+        gap:4rem;
         align-self: center;
+
+       .uploadImg-container {
+            //height:8rem;
+            margin-top: 0.5rem;
+
+
+            .image-upload {
+                display: none;
+                visibility: hidden;
+            }
+            .image-preview-container{
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                gap:3.5rem;
+                margin-right: 12rem;
+
+                
+                .default-text-new{
+                    display: none;
+
+                }
+                .images-container{
+                    .image-preview--initialImg{
+                        width:1.50rem;
+                        height:1.50rem;
+                        outline: 1.5px solid #F3E7EB;
+                        outline-offset: 30px; 
+                        border-radius: 50%;
+                    }
+                    .image-preview--image{
+                        width:6rem;
+                        height:6rem;
+                        border-radius: 50%;
+                    }
+                }
+            
+            }
+
+           
+        }
+
 
         &__input-wrapper{
         position: relative;
@@ -46,10 +86,10 @@
                 color: global.$button-background;
 
                 &__password{
-                    left: 45px;
+                    left: 47px;
+                    top: 8%;
                 }
             }
-
             .icon__eye{
                 width:1.25rem;
                 height:1.25rem;
@@ -91,8 +131,17 @@
                     color:global.$button-background;
                 }
             }
+
         }
+
     }
+
+
 }
 
 
+
+input[type="text"]:focus,
+textarea:focus {
+    outline: none;
+}

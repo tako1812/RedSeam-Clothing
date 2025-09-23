@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/styles/css/style.css">
+    <link rel="stylesheet" href="/styles/css/registration.css">
   </head>
 
   <body>
@@ -24,15 +24,79 @@
         </nav>
       </div>
     </header>
-    
-    
-
+    <main>
+      <section class="section-user-auth">
+        <img src="/img/images/hero image.png">
+        <div class="user-auth">
+          <h2 class="heading-primary">Registration</h2>
+          <div class="image-container">
+            <label for="file-upload">
+              <div class="uploadImg-container">
+                <input
+                  class="input image-upload"
+                  type="file"
+                  id="file-upload"
+                  name="avatar"
+                  accept=".jpg,.png"
+                />
+                <div class="image-preview-container" id="imagePreview">
+                  <div class="images-container">
+                    <img src="/img/icons/camera.png" alt="image preview" class="image-preview--initialImg"/>
+                    <img src="" alt="image preview" class="image-preview--image"/>
+                  </div>
+                  <p class="default-text-upload">Uplead image</p>
+                  <p class="default-text-new">New uplead</p>
+                  <p class="text-remove">Remove</p>
+                </div>
+              </div>
+            </label>
+          </div>
+          <div class="input-btn-container">
+            <div class="inputs-container">
+              <div class="user-auth__input-wrapper">
+                <div>
+                  <input type="text" placeholder="Username" />
+                  <span class="icon icon__password">*</span>
+                </div>
+                <div class="error-message" id="username-error"></div>
+              </div>
+              <div class="user-auth__input-wrapper">
+                <div>
+                  <input type="text" placeholder="Email" />
+                  <span class="icon">*</span>
+                </div>
+                <div class="error-message" id="email-error"></div>
+              </div>
+              <div class="user-auth__input-wrapper">
+                <div>
+                  <input type="text" placeholder="Password" />
+                  <span class="icon icon__password">*</span>
+                </div>
+                <img class="icon__eye" src="/img/icons/eye.png">
+                <div class="error-message" id="password-error"></div>
+              </div>
+              <div class="user-auth__input-wrapper">
+                <div>
+                  <input type="text" placeholder="Password" />
+                  <span class="icon icon__password">*</span>
+                </div>
+                <img class="icon__eye" src="/img/icons/eye.png">
+                <div class="error-message" id="password-error"></div>
+              </div>
+            </div>
+            <div class="btn-text-container">
+              <button class="btn btn-account">Log in</button>
+              <p class="auth-switch">Already member? <a href="/pages/login.html" >Log in</a></p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
     <footer></footer>
 
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>  
     <script src="./js/script.js"></script>
-    <script src="./js/createEmployee.js"></script>
-    <script src="./js/addedTasks.js"></script>
+    <script src="../js/registration.js"></script>
   </body>
 </html>
