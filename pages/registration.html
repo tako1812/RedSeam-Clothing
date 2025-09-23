@@ -52,24 +52,24 @@
             </label>
           </div>
           <div class="input-btn-container">
-            <div class="inputs-container">
+            <form class="form-registration inputs-container">
               <div class="user-auth__input-wrapper">
                 <div>
-                  <input type="text" placeholder="Username" />
+                  <input type="text" name="username" placeholder="Username" />
                   <span class="icon icon__password">*</span>
                 </div>
                 <div class="error-message" id="username-error"></div>
               </div>
               <div class="user-auth__input-wrapper">
                 <div>
-                  <input type="text" placeholder="Email" />
+                  <input type="text" name="email" placeholder="Email" />
                   <span class="icon">*</span>
                 </div>
                 <div class="error-message" id="email-error"></div>
               </div>
               <div class="user-auth__input-wrapper">
                 <div>
-                  <input type="text" placeholder="Password" />
+                  <input type="password" name="password" placeholder="Password" />
                   <span class="icon icon__password">*</span>
                 </div>
                 <img class="icon__eye" src="/img/icons/eye.png">
@@ -77,17 +77,17 @@
               </div>
               <div class="user-auth__input-wrapper">
                 <div>
-                  <input type="text" placeholder="Password" />
+                  <input type="password" name="password_confirmation" placeholder="Password" />
                   <span class="icon icon__password">*</span>
                 </div>
                 <img class="icon__eye" src="/img/icons/eye.png">
                 <div class="error-message" id="password-error"></div>
               </div>
-            </div>
-            <div class="btn-text-container">
-              <button class="btn btn-account">Log in</button>
-              <p class="auth-switch">Already member? <a href="/pages/login.html" >Log in</a></p>
-            </div>
+              <div class="btn-text-container">
+                <button class="btn btn-account">Log in</button>
+                <p class="auth-switch">Already member? <a href="/pages/login.html" >Log in</a></p>
+              </div>
+            </form>
           </div>
         </div>
       </section>
@@ -96,7 +96,6 @@
 
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>  
-    <script src="./js/script.js"></script>
     <script src="../js/registration.js"></script>
   </body>
 </html>

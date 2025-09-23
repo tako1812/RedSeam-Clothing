@@ -47,42 +47,50 @@ remove.addEventListener("click", function(e) {
 
 });
 
-/*
-form.addEventListener("reset", function() {
-    // Hide preview and show default text again
-    imagePreview.style.display = "none";
-    imagePreview.removeAttribute("src"); // clear old image
-    defaultTextImage.style.display = "block";
-});
-*/
 
 
 
 
-/*
-   <div class="user-auth__input-wrapper">
-                <div>
-                  <input type="text" placeholder="Username" />
-                  <span class="icon icon__password">*</span>
-                </div>
-                <div class="error-message" id="username-error"></div>
-              </div>
-              <div class="user-auth__input-wrapper">
-                <div>
-                  <input type="text" placeholder="Email" />
-                  <span class="icon">*</span>
-                </div>
-                <div class="error-message" id="email-error"></div>
-              </div>
-              <div class="user-auth__input-wrapper">
-                <div>
-                  <input type="text" placeholder="Password" />
-                  <span class="icon icon__password">*</span>
-                </div>
-                <img class="icon__eye" src="/img/icons/eye.png">
-                <div class="error-message" id="password-error"></div>
-              </div>
 
 
+const sendJson = async function(url, uploadData) {
+    try{
+        const fetchData = await fetch(url,{
+            method:"POST",
+            headers:{
+                Authorization: `Bearer ${token}`,
+                accept:"application/json",
+            },
+            body: uploadData,
+        }
+    );
+    const data = await fetchData.json();
+    return data;
+    }catch (err){
+        throw err;
+    }
+};
+const registrationform = document.querySelector(".form-registration")
+const uploadData = async function(e) {
+    e.preventDefault();
+   const userFile = document.querySelector('.image-preview--image').files[0];
 
-*/
+    console.log(222);
+    const dataArr = [...new FormData(registrationform)];
+    const data = Object.fromEntries(dataArr);
+    console.log(data);
+
+    
+    const formData = new FormData();  //password_confirmation
+
+    formData.append("username", data.username);
+    formData.append("email", data.email);
+    formData.append("password", data.password);
+    formData.append("password_confirmation", data.password_confirmation);
+    formData.append("avatar", userFile);
+
+    console.log(formData);
+    const datas = await sendJson("https://momentum.redberryinternship.ge/api/employees",formData);
+    console.log(datas);
+  };
+  registrationform.addEventListener("submit",uploadData);
