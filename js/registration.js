@@ -50,10 +50,6 @@ remove.addEventListener("click", function(e) {
 
 
 
-
-
-
-
 const sendJson = async function(url, uploadData) {
     try{
         const fetchData = await fetch(url,{
@@ -71,14 +67,18 @@ const sendJson = async function(url, uploadData) {
         throw err;
     }
 };
+
 const registrationform = document.querySelector(".form-registration")
+
+
+
+const headerContainer = document.querySelector("header")
 
 
 const uploadData = async function(e) {
     e.preventDefault();
    const userFile = document.querySelector(".image-upload").files[0];
 
-    console.log(222);
     const dataArr = [...new FormData(registrationform)];
     const data = Object.fromEntries(dataArr);
 
@@ -98,54 +98,13 @@ const uploadData = async function(e) {
         console.log("Token saved:", datas.token);
     }  
     if (datas.user) {
-        localStorage.setItem("user", JSON.stringify(datas.user));
+    sessionStorage.setItem("user", JSON.stringify(datas.user));
     }
-    const token = localStorage.getItem("authToken");
-      const token2 = localStorage.getItem("user");
-  
-      console.log(token,token2);
+    //const token = localStorage.getItem("authToken");
+    
+    if (window.renderHeader) window.renderHeader();
   };
   registrationform.addEventListener("submit",uploadData);
 
 
 
-   /*
-   
-   {"username":"biko","email":"biko@gmail.com","avatar":"https://api.redseam.redberryinternship.ge/storage/avatars/MG3NTMTXhm1gc4boR19pg5wlek1t8uafkfhCjLqQ.png","id":685}
-
-   */
-    
- const renderUser = function(data){
-
-    const html = `
-     <div class="header-container">
-        <a href="/index.html">
-          <img class="logo"src="/img/images/Logo.png" alt="RedSeam Clothing logo" />
-        </a>
-        <nav class="nav-container">
-          <img src="/img/icons/user.png" alt="user icon" />
-          <a class="btn" href="#">Log in</a>
-        </nav>
-      </div>
-    
-    `
- }
-
-
-
-
-
-
-  /*
-  
-  "user": {
-    "username": "tako18",
-    "email": "tako18@redberry.ge",
-    "avatar": "https://api.redseam.redberryinternship.ge/storage/avatars/dipbax2DAy4cBEerAdDqDL2DutSvwlupXv9uOEJd.jpg",
-    "id": 669
-  },
-  "token": "3090|BYzlsBELyobqDieedqRJcNRJLD2Hggv3qQ4SPd9T62174cca"
-}
-  
-  
-  */

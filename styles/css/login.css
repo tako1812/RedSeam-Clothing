@@ -54,6 +54,17 @@ body {
   opacity: 0;
 }
 
+.header-userImg {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+}
+
+.shopping-cart-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
 .header-container {
   max-width: 120rem;
   margin: 0 auto;
@@ -71,7 +82,7 @@ body {
   justify-content: center;
   gap: 0.4rem;
 }
-.header-container .nav-container img {
+.header-container .nav-container .user-icon {
   width: 1.25rem;
   height: 1.25rem;
 }
