@@ -37,6 +37,9 @@
         position: relative;
         display: inline-block;
 
+        display:flex;
+        flex-direction: column;
+        gap:0.2rem;
             .icon{
                 position: absolute;
                 left: 32px;
@@ -56,6 +59,9 @@
                 position: absolute;
                 right: 10px;
                 top: 30%;
+                &:hover{
+                    width:1.3rem;
+                }
             }
 
             input{

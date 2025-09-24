@@ -125,6 +125,9 @@ body {
 .section-user-auth .user-auth__input-wrapper {
   position: relative;
   display: inline-block;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
 }
 .section-user-auth .user-auth__input-wrapper .icon {
   position: absolute;
@@ -143,6 +146,9 @@ body {
   position: absolute;
   right: 10px;
   top: 30%;
+}
+.section-user-auth .user-auth__input-wrapper .icon__eye:hover {
+  width: 1.3rem;
 }
 .section-user-auth .user-auth__input-wrapper input {
   width: 100%;

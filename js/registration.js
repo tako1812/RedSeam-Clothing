@@ -148,14 +148,22 @@ const removePlacehoderFromActiveField = function(e){
     const inputclasses = ["username", "email", "password", "password_confirmation"];
     
     if (inputclasses.some(cls => e.target.classList.contains(cls))) {
-        const placeholderSpan = e.target.nextElementSibling;
-        if (placeholderSpan && placeholderSpan.classList.contains("icon")) {
-            if (activeInputFiels(e.target.value)) {
-                placeholderSpan.classList.add("hidden");
-            } else {
-                placeholderSpan.classList.remove("hidden");
-            }
+        const placeholder = e.target.nextElementSibling;
+        if (activeInputFiels(e.target.value)) {
+            placeholder.classList.add("hidden");
+        } else {
+            placeholder.classList.remove("hidden");
         }
     }
 }
 inputsContainer.addEventListener("input", removePlacehoderFromActiveField);
+
+
+const switchPasswordVisibility= function(e){
+    if (e.target.classList.contains("icon__eye")) {
+        const passwordInput = e.target.previousElementSibling.firstElementChild;
+        if(passwordInput.type === "password") passwordInput.type = "text";
+        else passwordInput.type = "password";
+    }
+}
+inputsContainer.addEventListener("click", switchPasswordVisibility);

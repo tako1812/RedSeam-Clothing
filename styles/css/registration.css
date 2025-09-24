@@ -171,11 +171,14 @@ body {
   top: 8%;
 }
 .section-user-auth .user-auth__input-wrapper .icon__eye {
-  width: 1rem;
-  height: 1rem;
+  width: 1.25rem;
+  height: 1.25rem;
   position: absolute;
   right: 10px;
   top: 30%;
+}
+.section-user-auth .user-auth__input-wrapper .icon__eye:hover {
+  width: 1.3rem;
 }
 .section-user-auth .user-auth__input-wrapper input {
   width: 100%;
