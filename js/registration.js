@@ -7,6 +7,7 @@ const inputFile = document.querySelector(".image-upload");
     const defaultTextNew = previewConatiner.querySelector(".default-text-new");
     
     const remove = document.querySelector(".text-remove");
+
     
     
     
@@ -58,7 +59,7 @@ const sendJson = async function(url, uploadData) {
         const fetchData = await fetch(url,{
             method:"POST",
             headers:{
-                Authorization: `Bearer ${token}`,
+                //Authorization: `Bearer ${token}`,
                 accept:"application/json",
             },
             body: uploadData,
@@ -71,16 +72,16 @@ const sendJson = async function(url, uploadData) {
     }
 };
 const registrationform = document.querySelector(".form-registration")
+
+
 const uploadData = async function(e) {
     e.preventDefault();
-   const userFile = document.querySelector('.image-preview--image').files[0];
+   const userFile = document.querySelector(".image-upload").files[0];
 
     console.log(222);
     const dataArr = [...new FormData(registrationform)];
     const data = Object.fromEntries(dataArr);
-    console.log(data);
 
-    
     const formData = new FormData();  //password_confirmation
 
     formData.append("username", data.username);
@@ -90,7 +91,61 @@ const uploadData = async function(e) {
     formData.append("avatar", userFile);
 
     console.log(formData);
-    const datas = await sendJson("https://momentum.redberryinternship.ge/api/employees",formData);
-    console.log(datas);
+    const datas = await sendJson("https://api.redseam.redberryinternship.ge/api/register",formData);
+    
+    if (datas.token) {
+        localStorage.setItem("authToken", datas.token);
+        console.log("Token saved:", datas.token);
+    }  
+    if (datas.user) {
+        localStorage.setItem("user", JSON.stringify(datas.user));
+    }
+    const token = localStorage.getItem("authToken");
+      const token2 = localStorage.getItem("user");
+  
+      console.log(token,token2);
   };
   registrationform.addEventListener("submit",uploadData);
+
+
+
+   /*
+   
+   {"username":"biko","email":"biko@gmail.com","avatar":"https://api.redseam.redberryinternship.ge/storage/avatars/MG3NTMTXhm1gc4boR19pg5wlek1t8uafkfhCjLqQ.png","id":685}
+
+   */
+    
+ const renderUser = function(data){
+
+    const html = `
+     <div class="header-container">
+        <a href="/index.html">
+          <img class="logo"src="/img/images/Logo.png" alt="RedSeam Clothing logo" />
+        </a>
+        <nav class="nav-container">
+          <img src="/img/icons/user.png" alt="user icon" />
+          <a class="btn" href="#">Log in</a>
+        </nav>
+      </div>
+    
+    `
+ }
+
+
+
+
+
+
+  /*
+  
+  "user": {
+    "username": "tako18",
+    "email": "tako18@redberry.ge",
+    "avatar": "https://api.redseam.redberryinternship.ge/storage/avatars/dipbax2DAy4cBEerAdDqDL2DutSvwlupXv9uOEJd.jpg",
+    "id": 669
+  },
+  "token": "3090|BYzlsBELyobqDieedqRJcNRJLD2Hggv3qQ4SPd9T62174cca"
+}
+  
+  
+  */
