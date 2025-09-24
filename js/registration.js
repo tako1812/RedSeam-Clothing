@@ -5,12 +5,12 @@ const inputFile = document.querySelector(".image-upload");
     const imagePrevInitial = previewConatiner.querySelector(".image-preview--initialImg");
     const defaultText = previewConatiner.querySelector(".default-text-upload");
     const defaultTextNew = previewConatiner.querySelector(".default-text-new");
-    
-    const remove = document.querySelector(".text-remove");
+    const remove = document.querySelector(".text-remove");    
+    const inputsContainer = document.querySelector(".inputs-container");
+
 
     
-    
-    
+
     
 imagePreview.style.display = "none";
 inputFile.addEventListener("change", function() {
@@ -143,23 +143,19 @@ const uploadData = async function(e) {
 
 
 
-
-const ddd = document.querySelector(".inputs-container");
-
 const activeInputFiels = (input) => input.trim().length >= 1;
-ddd.addEventListener("input", function(e){
-    const username = document.querySelector(".username");
-    const usernameValue = username.value;
+const removePlacehoderFromActiveField = function(e){
+    const inputclasses = ["username", "email", "password", "password_confirmation"];
     
-
-    if(e.target.classList.contains("username")){
-        if(activeInputFiels(usernameValue)) {
-            username.nextElementSibling.classList.add("hidden");
-        } else{
-            username.nextElementSibling.classList.remove("hidden");
-
+    if (inputclasses.some(cls => e.target.classList.contains(cls))) {
+        const placeholderSpan = e.target.nextElementSibling;
+        if (placeholderSpan && placeholderSpan.classList.contains("icon")) {
+            if (activeInputFiels(e.target.value)) {
+                placeholderSpan.classList.add("hidden");
+            } else {
+                placeholderSpan.classList.remove("hidden");
+            }
         }
-    } 
-    
-
-});
+    }
+}
+inputsContainer.addEventListener("input", removePlacehoderFromActiveField);
