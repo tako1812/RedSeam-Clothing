@@ -77,6 +77,11 @@
         position: relative;
         display: inline-block;
 
+        display:flex;
+        flex-direction: column;
+        gap:0.2rem;
+
+
             .icon{
                 position: absolute;
                 left: 32px;
@@ -91,8 +96,8 @@
                 }
             }
             .icon__eye{
-                width:1.25rem;
-                height:1.25rem;
+                width:1rem;
+                height:1rem;
                 position: absolute;
                 right: 10px;
                 top: 30%;
@@ -106,6 +111,12 @@
                 border-radius:0.5rem;
                 color:global.$text-color-light;
                 
+            }
+            .error-message{
+                color:global.$button-background;
+                font-size:0.7rem;
+           
+          
             }
         }
         .btn-text-container{

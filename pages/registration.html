@@ -47,32 +47,36 @@
             <form class="form-registration inputs-container">
               <div class="user-auth__input-wrapper">
                 <div>
-                  <input type="text" name="username" placeholder="Username" />
+                  <input type="text" name="username" placeholder="Username" class="username"/>
                   <span class="icon icon__password">*</span>
                 </div>
                 <div class="error-message" id="username-error"></div>
               </div>
               <div class="user-auth__input-wrapper">
                 <div>
-                  <input type="text" name="email" placeholder="Email" />
+                  <input type="text" name="email" placeholder="Email" class="email"/>
                   <span class="icon">*</span>
                 </div>
                 <div class="error-message" id="email-error"></div>
               </div>
               <div class="user-auth__input-wrapper">
                 <div>
-                  <input type="password" name="password" placeholder="Password" />
-                  <span class="icon icon__password">*</span>
+                  <div>
+                    <input type="password" name="password" placeholder="Password" class="password" />
+                    <span class="icon icon__password">*</span>
+                  </div>
+                  <img class="icon__eye" src="/img/icons/eye.png">
                 </div>
-                <img class="icon__eye" src="/img/icons/eye.png">
                 <div class="error-message" id="password-error"></div>
               </div>
               <div class="user-auth__input-wrapper">
                 <div>
-                  <input type="password" name="password_confirmation" placeholder="Password" />
-                  <span class="icon icon__password">*</span>
+                  <div>
+                    <input type="password" name="password_confirmation" placeholder="Password" class=password_confirmation/>
+                    <span class="icon icon__password">*</span>
+                  </div>
+                  <img class="icon__eye" src="/img/icons/eye.png">
                 </div>
-                <img class="icon__eye" src="/img/icons/eye.png">
                 <div class="error-message" id="password-error"></div>
               </div>
               <div class="btn-text-container">

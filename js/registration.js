@@ -61,6 +61,18 @@ const sendJson = async function(url, uploadData) {
             body: uploadData,
         }
     );
+
+        if (!fetchData.ok) {
+            let errorData;
+            try {
+                errorData = await fetchData.json();
+            } catch {
+                errorData = { message: fetchData.statusText };
+            }
+            throw errorData;
+        }
+
+
     const data = await fetchData.json();
     return data;
     }catch (err){
@@ -68,8 +80,9 @@ const sendJson = async function(url, uploadData) {
     }
 };
 
-const registrationform = document.querySelector(".form-registration")
 
+
+const registrationform = document.querySelector(".form-registration")
 
 
 const headerContainer = document.querySelector("header")
@@ -78,33 +91,75 @@ const headerContainer = document.querySelector("header")
 const uploadData = async function(e) {
     e.preventDefault();
    const userFile = document.querySelector(".image-upload").files[0];
-
     const dataArr = [...new FormData(registrationform)];
     const data = Object.fromEntries(dataArr);
 
-    const formData = new FormData();  //password_confirmation
-
+    const formData = new FormData(); 
     formData.append("username", data.username);
     formData.append("email", data.email);
     formData.append("password", data.password);
     formData.append("password_confirmation", data.password_confirmation);
     formData.append("avatar", userFile);
+   
+    
 
-    console.log(formData);
-    const datas = await sendJson("https://api.redseam.redberryinternship.ge/api/register",formData);
-    
-    if (datas.token) {
-        localStorage.setItem("authToken", datas.token);
-        console.log("Token saved:", datas.token);
-    }  
-    if (datas.user) {
-    sessionStorage.setItem("user", JSON.stringify(datas.user));
+
+
+    const fields = ["username", "email", "password", "password_confirmation"];
+
+    try {
+        const datas = await sendJson("https://api.redseam.redberryinternship.ge/api/register", formData);
+
+        if (datas.token) {
+            localStorage.setItem("authToken", datas.token);
+        }
+        if (datas.user) {
+            sessionStorage.setItem("user", JSON.stringify(datas.user));
+        }
+
+        if (window.renderHeader) window.renderHeader();
+
+
+    }catch (err) {
+        fields.forEach(field => {
+            const errorDiv = document.getElementById(`${field}-error`);
+            if (errorDiv) errorDiv.textContent = "";
+        });
+
+        if (err.errors) {
+            for (const [field, messages] of Object.entries(err.errors)) {
+                const errorDiv = document.getElementById(`${field}-error`);
+                const inputField = document.querySelector(`.${field}`);
+                inputField.style.borderColor = "#FF4000";
+                if (errorDiv) errorDiv.textContent = messages.join(" ");
+            }
+        }
     }
-    //const token = localStorage.getItem("authToken");
-    
-    if (window.renderHeader) window.renderHeader();
-  };
+
+
+};
   registrationform.addEventListener("submit",uploadData);
 
 
 
+
+
+const ddd = document.querySelector(".inputs-container");
+
+const activeInputFiels = (input) => input.trim().length >= 1;
+ddd.addEventListener("input", function(e){
+    const username = document.querySelector(".username");
+    const usernameValue = username.value;
+    
+
+    if(e.target.classList.contains("username")){
+        if(activeInputFiels(usernameValue)) {
+            username.nextElementSibling.classList.add("hidden");
+        } else{
+            username.nextElementSibling.classList.remove("hidden");
+
+        }
+    } 
+    
+
+});
