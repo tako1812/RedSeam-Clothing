@@ -1,6 +1,5 @@
 "use strict";
 const pageId = localStorage.getItem("page-id");
-
 const productDetailsContainer = document.querySelector(".product-details");
 
 //product-details
@@ -67,10 +66,10 @@ const createCardDetails = async function () {
                     </div>
                 </div>
                 <div class="product-description-quantity">
-                    <p class="product-description__title">Quantity: L</p>
+                    <p class="product-description__title quantity-item">Quantity: L</p>
                     <div class="product-description-quantity__content">
                         <div class="selected-quentity-container">
-                            <span lass="selected-quantity">1</span>
+                            <span class="selected-quantity">1</span>
                             <img src="/img/icons/down-arrow.png">
                         </div>
                         <div class="product-description-quantity__container hidden">
@@ -165,3 +164,44 @@ productDetailsContainer.addEventListener("click", handleImageColorClick);
 
 
 
+
+const quantityDropdown = function(e){
+    const selectedContainer = document.querySelector(".selected-quentity-container");
+    const quantityDropdown = document.querySelector('.product-description-quantity__container');
+    const selectedQuantity = document.querySelector('.selected-quantity');
+    const quantityItem = document.querySelector(".quantity-item");
+
+
+
+    const clicked = e.target.closest(".selected-quentity-container");
+    if(clicked){
+        quantityDropdown.classList.toggle('hidden');
+    }
+    else if (e.target.classList.contains('quantity')) {
+        selectedQuantity.textContent = e.target.textContent;
+        quantityItem.textContent = `Quantity: ${e.target.textContent}`;
+        quantityDropdown.classList.add('hidden');
+    }
+}
+productDetailsContainer.addEventListener("click", quantityDropdown);
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+es scroptshi gadavitano
+document.addEventListener('click', function(e) {
+    if (!selectedContainer.contains(e.target) && !quantityDropdown.contains(e.target)) {
+        quantityDropdown.classList.add('hidden');
+    }
+});
+*/
