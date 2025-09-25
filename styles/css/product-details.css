@@ -154,10 +154,6 @@ input[type=email]:focus {
   border-radius: 50%;
   background-color: pink;
 }
-.product-details .product-description-colors__content div:hover {
-  outline: 2px solid #F3E7EB;
-  outline-offset: 2px;
-}
 .product-details .product-description-sizes__content {
   display: flex;
   gap: 0.5rem;
@@ -380,4 +376,14 @@ input[type=email]:focus {
   color: #FFf;
   font-size: 0.9rem;
   border-radius: 10px;
+}
+
+.active {
+  outline: 2px solid #E1DFE1;
+  outline-offset: 2px;
+}
+
+.activeImg {
+  border: 1.2px solid #E1DFE1;
+  border-radius: 5px;
 }

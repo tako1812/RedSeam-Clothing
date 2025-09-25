@@ -5,8 +5,10 @@ const productDetailsContainer = document.querySelector(".product-details");
 
 //product-details
 
-let colorData =[];
+let colorsData =[];
 let sizeData =[];
+let imagesData =[];
+let availableColors = ""
 const createCardDetails = async function () {
   
     const res = await fetch(
@@ -23,13 +25,16 @@ const createCardDetails = async function () {
     const datas = await res.json();
     console.log(datas);
 
-    colorData =datas.available_colors;
+    colorsData =datas.available_colors;
     sizeData =datas.available_sizes;
+    imagesData=datas.images;
     
-    const galleryImages = datas.images.map(url => `<img src="${url}"/>`).join('');
+    //const galleryImages = datas.images.map(url => `<img class="img-options" src="${url}"/>`).join('');
     
-    const availableColors = datas.available_colors.map(color => `<div class="color" data-color="${color}" style="background-color: ${color.toLowerCase()};"></div>`).join("");
+    const galleryImages = datas.images.map((url, i) => `<img class="img-options${i === 0 ? ' activeImg' : ''}" src="${url}"/>`).join('');
+    availableColors = datas.available_colors.map((color,i) => `<div class="color color-${color} ${i === 0 ? 'active' : ''}" data-color="${color}" style="background-color: ${color.toLowerCase()};"></div>`).join("");
     const availableSizes = datas.available_sizes.map(size => `<div class="size" data-size="${size}">${size}</div>`).join("");
+    datas.images[0]
 
     productDetailsContainer.innerHTML = "";
     const html = `
@@ -39,7 +44,7 @@ const createCardDetails = async function () {
             ${galleryImages}
             </div>
             <div class="product-details__gallery-hero-image">
-                <img src="${datas.cover_image}">
+                <img class="hero-image" src="${datas.cover_image}">
             </div>
         </div>
         <div class="product-description">
@@ -64,21 +69,21 @@ const createCardDetails = async function () {
                 <div class="product-description-quantity">
                     <p class="product-description__title">Quantity: L</p>
                     <div class="product-description-quantity__content">
-                        <div>
-                            <span>1</span>
+                        <div class="selected-quentity-container">
+                            <span lass="selected-quantity">1</span>
                             <img src="/img/icons/down-arrow.png">
                         </div>
                         <div class="product-description-quantity__container hidden">
-                            <span>1</span>
-                            <span>2</span>
-                            <span>3</span>
-                            <span>4</span>
-                            <span>5</span>
-                            <span>6</span>
-                            <span>7</span>
-                            <span>8</span>
-                            <span>9</span>
-                            <span>10</span>
+                            <span class="quantity">1</span>
+                            <span class="quantity">2</span>
+                            <span class="quantity">3</span>
+                            <span class="quantity">4</span>
+                            <span class="quantity">5</span>
+                            <span class="quantity">6</span>
+                            <span class="quantity">7</span>
+                            <span class="quantity">8</span>
+                            <span class="quantity">9</span>
+                            <span class="quantity">10</span>
                         </div>
                     </div>
                 </div>
@@ -120,6 +125,9 @@ const displaySelectedOption = function(e){
         const clicked = e.target.getAttribute('data-size');
         productSize.textContent =`Size: ${clicked}`;
     }
+    else if(e.target.classList.contains("color")){
+        
+    }
 
 }
 
@@ -128,16 +136,32 @@ productDetailsContainer.addEventListener("click", displaySelectedOption);
 
 
 
-/*
-const galleryImagesHtml = datas.images.map(url => `<img src="${url}"/>`).join('');
-const html = `
-<div class="product-details__gallery">
-    <div class="product-details__gallery-images">
-        ${galleryImagesHtml}
-        <!-- Other static images here if needed -->
-    </div>
-    <div class="product-details__gallery-hero-image">
-        <img src="/img/images/hero image.png">
-    </div>
-</div>
-`;*/
+const handleImageColorClick = function(e){
+
+    const heroImg = document.querySelector(".hero-image");
+const imageOptions=document.querySelectorAll(".img-options");
+    if(e.target.classList.contains("color")){
+        document.querySelectorAll('.color').forEach(el => el.classList.remove('active'));
+        e.target.classList.add("active");
+        const clicked = e.target.getAttribute('data-color');
+        const selectedColorIndex = colorsData.indexOf(clicked);
+        const correspondingImg = imagesData[selectedColorIndex];
+        imageOptions.forEach(el => el.classList.remove('activeImg'));
+        imageOptions[selectedColorIndex].classList.add("activeImg");
+        heroImg.src=correspondingImg;        
+    }
+    else if(e.target.classList.contains("img-options")){
+        imageOptions.forEach(el => el.classList.remove('activeImg'));
+        e.target.classList.add("activeImg");
+        const clicked = e.target.getAttribute('src');
+        heroImg.src=clicked;
+        const selectedImgIndex = imagesData.indexOf(clicked);
+        const correspondingColor = colorsData[selectedImgIndex];
+        document.querySelectorAll('.color').forEach(el => el.classList.remove('active'));
+        document.querySelector(`.color-${correspondingColor}`).classList.add("active");
+    }
+}
+productDetailsContainer.addEventListener("click", handleImageColorClick);
+
+
+

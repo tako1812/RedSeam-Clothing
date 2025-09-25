@@ -70,12 +70,6 @@
                 background-color:pink;
                 }
         
-                div:hover {
-                    
-                    outline: 2px solid #F3E7EB;
-                    outline-offset: 2px; 
-  
-                }
             }
             
         }
@@ -349,4 +343,15 @@
               border-radius:10px;
         }
     }
+}
+.active{
+    outline: 2px solid global.$border-color;
+    outline-offset: 2px; 
+  
+}
+.activeImg{
+    border: 1.2px solid global.$border-color;
+    border-radius: 5px;
+    
+  
 }
