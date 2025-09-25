@@ -5,6 +5,8 @@ const productDetailsContainer = document.querySelector(".product-details");
 
 //product-details
 
+let colorData =[];
+let sizeData =[];
 const createCardDetails = async function () {
   
     const res = await fetch(
@@ -20,11 +22,14 @@ const createCardDetails = async function () {
     );
     const datas = await res.json();
     console.log(datas);
+
+    colorData =datas.available_colors;
+    sizeData =datas.available_sizes;
     
     const galleryImages = datas.images.map(url => `<img src="${url}"/>`).join('');
     
-    const availableColors = datas.available_colors.map(color => `<div class="color-circle" style="background-color: ${color.toLowerCase()};"></div>`).join("");
-    const availableSizes = datas.available_sizes.map(size => `<div>${size}</div>`).join("");
+    const availableColors = datas.available_colors.map(color => `<div class="color" data-color="${color}" style="background-color: ${color.toLowerCase()};"></div>`).join("");
+    const availableSizes = datas.available_sizes.map(size => `<div class="size" data-size="${size}">${size}</div>`).join("");
 
     productDetailsContainer.innerHTML = "";
     const html = `
@@ -44,14 +49,14 @@ const createCardDetails = async function () {
             </div>
             <div class="wrapper-color-size-quantity">
                 <div class="product-description-colors">
-                    <p class="product-description__title">Color: Baby pink</p>
+                    <p class="product-description__title product-color">Color: Baby pink</p>
                     <div class="product-description-colors__content">
                         ${availableColors}
                     </div>
                 </div>
             
                 <div class="product-description-sizes">
-                    <p class="product-description__title">Size: L</p>
+                    <p class="product-description__title product-size">Size: L</p>
                     <div class="product-description-sizes__content">
                         ${availableSizes}
                     </div>
@@ -103,9 +108,22 @@ createCardDetails();
 
 
 
+const displaySelectedOption = function(e){
+    const productColor = document.querySelector(".product-color");
+    const productSize = document.querySelector(".product-size");
 
+    if(e.target.classList.contains("color")){
+        const clicked = e.target.getAttribute('data-color');
+        productColor.textContent =`Color: ${clicked}`;
+    }
+    else if(e.target.classList.contains("size")){
+        const clicked = e.target.getAttribute('data-size');
+        productSize.textContent =`Size: ${clicked}`;
+    }
 
+}
 
+productDetailsContainer.addEventListener("click", displaySelectedOption);
 
 
 
