@@ -46,6 +46,10 @@
         flex-direction: column;
         gap:3.5rem;
 
+        .product-name{
+            text-transform: capitalize;
+        }
+
         .wrapper-color-size-quantity{
             display:flex;
             flex-direction: column;

@@ -136,6 +136,9 @@ input[type=email]:focus {
   flex-direction: column;
   gap: 3.5rem;
 }
+.product-details .product-description .product-name {
+  text-transform: capitalize;
+}
 .product-details .product-description .wrapper-color-size-quantity {
   display: flex;
   flex-direction: column;
