@@ -73,6 +73,10 @@
                 color:global.$text-color-light;
                 
             }
+            .error-message{
+                color:global.$button-background;
+                font-size:0.7rem;
+            }
         }
         .btn-text-container{
             display:flex;

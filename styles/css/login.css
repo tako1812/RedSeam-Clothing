@@ -65,6 +65,13 @@ body {
   height: 1.5rem;
 }
 
+input[type=text]:focus,
+input[type=password]:focus,
+input[type=email]:focus {
+  outline: none;
+  border: 5rem solid #10151F !important;
+}
+
 .header-container {
   max-width: 120rem;
   margin: 0 auto;
@@ -157,6 +164,10 @@ body {
   font-size: 0.8rem;
   border-radius: 0.5rem;
   color: #3E424A;
+}
+.section-user-auth .user-auth__input-wrapper .error-message {
+  color: #FF4000;
+  font-size: 0.7rem;
 }
 .section-user-auth .user-auth .btn-text-container {
   display: flex;

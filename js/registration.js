@@ -6,7 +6,7 @@ const inputFile = document.querySelector(".image-upload");
     const defaultText = previewConatiner.querySelector(".default-text-upload");
     const defaultTextNew = previewConatiner.querySelector(".default-text-new");
     const remove = document.querySelector(".text-remove");    
-    const inputsContainer = document.querySelector(".inputs-container");
+    //const inputsContainer = document.querySelector(".inputs-container");
 
 
     
@@ -49,7 +49,7 @@ remove.addEventListener("click", function(e) {
 });
 
 
-
+/*
 const sendJson = async function(url, uploadData) {
     try{
         const fetchData = await fetch(url,{
@@ -61,7 +61,6 @@ const sendJson = async function(url, uploadData) {
             body: uploadData,
         }
     );
-
         if (!fetchData.ok) {
             let errorData;
             try {
@@ -71,24 +70,20 @@ const sendJson = async function(url, uploadData) {
             }
             throw errorData;
         }
-
-
     const data = await fetchData.json();
     return data;
     }catch (err){
         throw err;
     }
-};
+};*/
 
 
 
 const registrationform = document.querySelector(".form-registration")
-
-
 const headerContainer = document.querySelector("header")
 
 
-const uploadData = async function(e) {
+const registrationUser = async function(e) {
     e.preventDefault();
    const userFile = document.querySelector(".image-upload").files[0];
     const dataArr = [...new FormData(registrationform)];
@@ -101,12 +96,7 @@ const uploadData = async function(e) {
     formData.append("password_confirmation", data.password_confirmation);
     formData.append("avatar", userFile);
    
-    
-
-
-
     const fields = ["username", "email", "password", "password_confirmation"];
-
     try {
         const datas = await sendJson("https://api.redseam.redberryinternship.ge/api/register", formData);
 
@@ -116,10 +106,7 @@ const uploadData = async function(e) {
         if (datas.user) {
             sessionStorage.setItem("user", JSON.stringify(datas.user));
         }
-
         if (window.renderHeader) window.renderHeader();
-
-
     }catch (err) {
         fields.forEach(field => {
             const errorDiv = document.getElementById(`${field}-error`);
@@ -138,32 +125,7 @@ const uploadData = async function(e) {
 
 
 };
-  registrationform.addEventListener("submit",uploadData);
+  registrationform.addEventListener("submit",registrationUser);
 
 
 
-
-const activeInputFiels = (input) => input.trim().length >= 1;
-const removePlacehoderFromActiveField = function(e){
-    const inputclasses = ["username", "email", "password", "password_confirmation"];
-    
-    if (inputclasses.some(cls => e.target.classList.contains(cls))) {
-        const placeholder = e.target.nextElementSibling;
-        if (activeInputFiels(e.target.value)) {
-            placeholder.classList.add("hidden");
-        } else {
-            placeholder.classList.remove("hidden");
-        }
-    }
-}
-inputsContainer.addEventListener("input", removePlacehoderFromActiveField);
-
-
-const switchPasswordVisibility= function(e){
-    if (e.target.classList.contains("icon__eye")) {
-        const passwordInput = e.target.previousElementSibling.firstElementChild;
-        if(passwordInput.type === "password") passwordInput.type = "text";
-        else passwordInput.type = "password";
-    }
-}
-inputsContainer.addEventListener("click", switchPasswordVisibility);
