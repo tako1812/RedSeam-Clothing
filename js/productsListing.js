@@ -288,6 +288,7 @@ const renderSortedByLowToHigh= function (page = 1) {
 };
 
 
+
 const renderSortedByHighToLow= function (page = 1) {
     clothingListingContainer.innerHTML = "";
     const items = getItemsForPage(dataSortByHighToLow, page, 10);

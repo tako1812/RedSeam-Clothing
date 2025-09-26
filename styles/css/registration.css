@@ -55,8 +55,8 @@ body {
 }
 
 .header-userImg {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2rem;
+  height: 2rem;
   border-radius: 50%;
 }
 
@@ -69,9 +69,14 @@ input[type=text]:focus,
 input[type=password]:focus,
 input[type=email]:focus {
   outline: none;
-  border: 5rem solid #10151F !important;
+  outline: 0.1rem solid #10151F !important;
 }
 
+/*
+.invalid{
+  border:0.2px solid button-background;
+}
+*/
 .header-container {
   max-width: 120rem;
   margin: 0 auto;
@@ -90,8 +95,8 @@ input[type=email]:focus {
   gap: 0.4rem;
 }
 .header-container .nav-container .user-icon {
-  width: 1.25rem;
-  height: 1.25rem;
+  width: 1.7rem;
+  height: 1.7rem;
 }
 .header-container .nav-container a {
   color: #10151F;

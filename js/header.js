@@ -7,13 +7,13 @@ function renderHeader() {
       header.innerHTML = html;
 
       const user = JSON.parse(sessionStorage.getItem("user"));
-      if (user && user.avatar) {
+      if (user) {
         const nav = header.querySelector(".nav-container");
         nav.innerHTML = `
           <img  class="shopping-cart-icon"src="/img/icons/shopping-cart.png" alt="user icon" />
-          <img class="header-userImg" src="${user.avatar}" alt="user icon" />
+          <img class="header-userImg" src="${user.avatar ?? '/img/icons/user.png'}" alt="user icon" />
         `;
-      }
+      }  
     })
     .catch(err => console.error("Error loading header:", err));
 }

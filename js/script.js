@@ -32,7 +32,7 @@ const sendJson = async function(url, uploadData) {
             method:"POST",
             headers:{
                 //Authorization: `Bearer ${token}`,
-                accept:"application/json",
+                accept: "application/json",
             },
             body: uploadData,
         }

@@ -94,11 +94,12 @@ const registrationUser = async function(e) {
     formData.append("email", data.email);
     formData.append("password", data.password);
     formData.append("password_confirmation", data.password_confirmation);
-    formData.append("avatar", userFile);
+    if(userFile)formData.append("avatar", userFile);
    
     const fields = ["username", "email", "password", "password_confirmation"];
     try {
         const datas = await sendJson("https://api.redseam.redberryinternship.ge/api/register", formData);
+        console.log(datas);
 
         if (datas.token) {
             localStorage.setItem("authToken", datas.token);
@@ -107,6 +108,8 @@ const registrationUser = async function(e) {
             sessionStorage.setItem("user", JSON.stringify(datas.user));
         }
         if (window.renderHeader) window.renderHeader();
+        
+        window.location.href = "/index.html";
     }catch (err) {
         fields.forEach(field => {
             const errorDiv = document.getElementById(`${field}-error`);
@@ -117,15 +120,39 @@ const registrationUser = async function(e) {
             for (const [field, messages] of Object.entries(err.errors)) {
                 const errorDiv = document.getElementById(`${field}-error`);
                 const inputField = document.querySelector(`.${field}`);
-                inputField.style.borderColor = "#FF4000";
+                if(inputField) inputField.style.borderColor = "#FF4000";
                 if (errorDiv) errorDiv.textContent = messages.join(" ");
             }
         }
     }
-
-
+    
 };
-  registrationform.addEventListener("submit",registrationUser);
+registrationform.addEventListener("submit",registrationUser);
+
+
+const usernameInput = document.querySelector(".username");
+const usernameErrorDiv = document.getElementById("username-error");
+const emailErrorDiv = document.getElementById("email-error");
+const emailInput = document.querySelector(".email");
+const passwordInput = document.querySelector(".password");
+const passwordErrorDiv = document.getElementById("password-error");
+
+function clearFieldError(field) {
+  if (field === "username") {
+    usernameErrorDiv.textContent = "";
+    usernameInput.style.borderColor = "";
+  } else if (field === "email") {
+    emailErrorDiv.textContent = "";
+    emailInput.style.borderColor = "";
+  } else if (field === "password") {
+    passwordErrorDiv.textContent = "";
+    passwordInput.style.borderColor = "";
+  }
+}
+
+usernameInput.addEventListener("input", () => clearFieldError("username"));
+emailInput.addEventListener("input", () => clearFieldError("email"));
+passwordInput.addEventListener("input", () => clearFieldError("password"));
 
 
 

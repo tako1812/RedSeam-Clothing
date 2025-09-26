@@ -21,11 +21,11 @@
         <img src="/img/images/hero image.png">
         <div class="user-auth">
           <h2 class="heading-primary">Log in</h2>
-          <form class="form-login input-btn-container">
+          <form class="form-login input-btn-container" id="loginForm">
             <div class="inputs-container">
               <div class="user-auth__input-wrapper">
                 <div>
-                  <input type="text" name="email" placeholder="Email" class="email"/>
+                  <input type="text" name="email" placeholder="Email" class="input email"/>
                   <span class="icon">*</span>
                 </div>
                 <div class="error-message" id="email-error"></div>
@@ -33,12 +33,13 @@
               <div class="user-auth__input-wrapper">
                 <div>
                   <div>
-                    <input type="password" name="password" placeholder="Password" class="password" />
+                    <input type="password" name="password" placeholder="Password" class="input password" />
                     <span class="icon icon__password">*</span>
                   </div>
                   <img class="icon__eye" src="/img/icons/eye.png">
                 </div>
                 <div class="error-message" id="password-error"></div>
+                <div id="login-general-error"></div>
               </div>
             </div>
             <div class="btn-text-container">

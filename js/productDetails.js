@@ -8,6 +8,18 @@ let colorsData =[];
 let sizeData =[];
 let imagesData =[];
 let availableColors = ""
+
+const currentSelection = {
+  color: null,
+  image: null,
+  size: null,
+  quantity: 1,
+  name: null,
+  price: null,
+  productId: null,
+};
+
+
 const createCardDetails = async function () {
   
     const res = await fetch(
@@ -27,8 +39,11 @@ const createCardDetails = async function () {
     colorsData =datas.available_colors;
     sizeData =datas.available_sizes;
     imagesData=datas.images;
+    currentSelection.name = datas.name;
+    currentSelection.price = datas.price;
+    currentSelection.productId = datas.id;
+        
     
-    //const galleryImages = datas.images.map(url => `<img class="img-options" src="${url}"/>`).join('');
     
     const galleryImages = datas.images.map((url, i) => `<img class="img-options${i === 0 ? ' activeImg' : ''}" src="${url}"/>`).join('');
     availableColors = datas.available_colors.map((color,i) => `<div class="color color-${color} ${i === 0 ? 'active' : ''}" data-color="${color}" style="background-color: ${color.toLowerCase()};"></div>`).join("");
@@ -88,7 +103,7 @@ const createCardDetails = async function () {
                 </div>
             </div>
             <div class="product-description-btn">
-                <button class="btn">
+                <button class="btn add-to-cart">
                     <img src="/img/icons/shopping-cart.png">
                     <span>Add to card</span>
                 </button>
@@ -119,10 +134,12 @@ const displaySelectedOption = function(e){
     if(e.target.classList.contains("color")){
         const clicked = e.target.getAttribute('data-color');
         productColor.textContent =`Color: ${clicked}`;
+        currentSelection.color = clicked;
     }
     else if(e.target.classList.contains("size")){
         const clicked = e.target.getAttribute('data-size');
         productSize.textContent =`Size: ${clicked}`;
+        currentSelection.size = clicked;
     }
     else if(e.target.classList.contains("color")){
         
@@ -148,6 +165,7 @@ const imageOptions=document.querySelectorAll(".img-options");
         imageOptions.forEach(el => el.classList.remove('activeImg'));
         imageOptions[selectedColorIndex].classList.add("activeImg");
         heroImg.src=correspondingImg;        
+        currentSelection.image = correspondingImg;
     }
     else if(e.target.classList.contains("img-options")){
         imageOptions.forEach(el => el.classList.remove('activeImg'));
@@ -158,6 +176,7 @@ const imageOptions=document.querySelectorAll(".img-options");
         const correspondingColor = colorsData[selectedImgIndex];
         document.querySelectorAll('.color').forEach(el => el.classList.remove('active'));
         document.querySelector(`.color-${correspondingColor}`).classList.add("active");
+        
     }
 }
 productDetailsContainer.addEventListener("click", handleImageColorClick);
@@ -166,12 +185,9 @@ productDetailsContainer.addEventListener("click", handleImageColorClick);
 
 
 const quantityDropdown = function(e){
-    const selectedContainer = document.querySelector(".selected-quentity-container");
     const quantityDropdown = document.querySelector('.product-description-quantity__container');
     const selectedQuantity = document.querySelector('.selected-quantity');
     const quantityItem = document.querySelector(".quantity-item");
-
-
 
     const clicked = e.target.closest(".selected-quentity-container");
     if(clicked){
@@ -186,7 +202,23 @@ const quantityDropdown = function(e){
 productDetailsContainer.addEventListener("click", quantityDropdown);
 
 
+document.querySelector('.add-to-cart').addEventListener('click', function() {
+    console.log(222);
+    
+});
 
+
+const ddd = function(e) {
+    if (e.target.classList.contains('add-to-cart')) {
+        let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+        cart.push({...currentSelection});
+        localStorage.setItem("cart", JSON.stringify(cart));
+        console.log(cart);
+        alert("Added to cart!");
+    }
+}
+
+productDetailsContainer.addEventListener("click", ddd);
 
 
 
