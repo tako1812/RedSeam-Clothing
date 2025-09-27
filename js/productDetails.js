@@ -69,7 +69,7 @@ const createCardDetails = async function () {
         <div class="product-description">
             <div class="product-description__title-price-container">
                 <h2 class="heading-secondary product-name">${datas.name}</h2>
-                <p>$ ${datas.price}</p>
+                <p class="price">$ ${datas.price}</p>
             </div>
             <div class="wrapper-color-size-quantity">
                 <div class="product-description-colors">
@@ -86,7 +86,7 @@ const createCardDetails = async function () {
                     </div>
                 </div>
                 <div class="product-description-quantity">
-                    <p class="product-description__title quantity-item">Quantity: 1</p>
+                    <p class="product-description__title quantity-item">Quantity</p>
                     <div class="product-description-quantity__content">
                         <div class="selected-quentity-container">
                             <span class="selected-quantity">1</span>
@@ -145,14 +145,30 @@ const displaySelectedOption = function(e){
         const clicked = e.target.getAttribute('data-size');
         productSize.textContent =`Size: ${clicked}`;
         currentSelection.size = clicked;
-    }
-    else if(e.target.classList.contains("color")){
         
     }
 
 }
-
 productDetailsContainer.addEventListener("click", displaySelectedOption);
+
+
+
+const activeSelectedSize = function(e){
+    const sizesContainer = document.querySelectorAll(".size");
+    if(e.target.classList.contains("size")){
+        sizesContainer.forEach(size => size.classList.remove("selected"));
+        e.target.classList.add("selected");
+    }
+
+}
+productDetailsContainer.addEventListener("click", activeSelectedSize);
+
+
+
+
+
+
+
 
 
 
@@ -192,7 +208,6 @@ productDetailsContainer.addEventListener("click", handleImageColorClick);
 const quantityDropdown = function(e){
     const quantityDropdown = document.querySelector('.product-description-quantity__container');
     const selectedQuantity = document.querySelector('.selected-quantity');
-    const quantityItem = document.querySelector(".quantity-item");
 
     const clicked = e.target.closest(".selected-quentity-container");
     if(clicked){
@@ -200,7 +215,6 @@ const quantityDropdown = function(e){
     }
     else if (e.target.classList.contains('quantity')) {
         selectedQuantity.textContent = e.target.textContent;
-        quantityItem.textContent = `Quantity: ${e.target.textContent}`;
         quantityDropdown.classList.add('hidden');
     }
 }
@@ -215,9 +229,11 @@ document.querySelector('.add-to-cart').addEventListener('click', function() {
 const shoppingCartWindow = document.querySelector(".shopping-cart-window");
 const overlay = document.querySelector(".overlay");
 
+const sss = document.querySelector(".add-to-cart");
 
-const handleAddToCartClick = async function(e) {
-    if (e.target.classList.contains('add-to-cart')) {
+
+const handleAddToCartClick = async function() {
+    //if (e.target.classList.contains('add-to-cart')) {
         const productId = currentSelection.id; // or whatever identifies the product
         const cartData = {
             color: currentSelection.color,
@@ -238,6 +254,7 @@ const handleAddToCartClick = async function(e) {
             if (response.ok) {
                 // Optionally update UI, show success message, etc.
                 console.log('Added to cart!');
+                //const render = await getCartData();
             } else {
                 // Handle error (show error message)
                 console.error('Failed to add to cart');
@@ -245,72 +262,104 @@ const handleAddToCartClick = async function(e) {
         } catch (err) {
             console.error('Network error:', err);
         }
-    }
+    //}
 };
-productDetailsContainer.addEventListener("click", handleAddToCartClick);
 
+const updateQuantityData = async function(sameProduct){
+    try {
+        const response = await fetch(`https://api.redseam.redberryinternship.ge/api/cart/products/${sameProduct.id}`, {
+            method: 'PATCH',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({quantity: sameProduct.quantity + currentSelection.quantity})
+        });
 
+        if (response.ok) {
+            // Optionally update UI, show success message, etc.
+            console.log('Added to cart!');
+        } else {
+            // Handle error (show error message)
+            console.error('Failed to add to cart');
+        }
+    } catch (err) {
+        console.error('Network error:', err);
+    }
+}
 
-
-
-
-
-
-
-
-
-
-
-
-/*
 const renderCarts = function(cart){
-    cartsContainer.innerHTML="";
+    cartsContainer.innerHTML = "";
 
-    const sss = cart.map(cart => (cart.color, cart.size));
-    console.log(sss);
-    const html =cart.map(cart => `
-
+    cart.forEach(item => {
+        const selectedColorIndex = item.available_colors.findIndex(color => color === item.color);
+        const html = `
         <div class="product-details">
-            <img src="${cart.image}" alt="${cart.name}">
+            <img src="${item.images[selectedColorIndex]}" alt="${item.name}">
             <div class="product-details__description">
                 <div class="product-details__description__title-btn-container">
-                    <p class="product-details__description-title">${cart.name}</p>
-                        <p class="product-details__description-price">$ ${cart.price}</p>
+                    <p class="product-details__description-title">${item.name}</p>
+                    <p class="product-details__description-price">$ ${item.price}</p>
                 </div>
-                <p class="product-details__description-color">${cart.color}</p>
-                <p class="product-details__description-size">L</p>
+                <p class="product-details__description-color">${item.color}</p>
+                <p class="product-details__description-size">${item.size}</p>
                 <div class="product-details__description__quantity-controller-btn-container">
                     <div class="product-details__description-quantity-controller">
                         <span class="quantity-controller__minus">-</span>
-                        <span class="quantity-controller__value">${cart.quantity}</span>
+                        <span class="quantity-controller__value">${item.quantity}</span>
                         <span class="quantity-controller__plus">+</span>
                     </div>
                     <button class="btn product-details__description-btn-remove">Remove</button>
                 </div>
             </div>
         </div>
-
-    `);
+    `;
+    //cartsContainer.innerHTML += html;
     cartsContainer.insertAdjacentHTML("beforeend", html);
-};*/
-/*
 
-shoppingCartWindow.classList.remove("hidden");
-        overlay.classList.remove("hidden");
-        renderCarts(cart);
+    });
+};
 
-*/
 
-/*
-const handleAddToCartClick = function(e) {
-    if (e.target.classList.contains('add-to-cart')) {
-        let cart = JSON.parse(localStorage.getItem("cart") || "[]");
-        cart.push({...currentSelection});
-        localStorage.setItem("cart", JSON.stringify(cart));
+const fetchCartData = async function() {
+    const res = await fetch(
+        `https://api.redseam.redberryinternship.ge/api/cart`,
+        {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                accept: "application/json",
+            },
+        }
+    );
+    return await res.json();
+};
+
+const getCartData = async function(e){
+    const clicked = e.target.closest(".add-to-cart");
+    if(!clicked) return;
+
+    shoppingCartWindow.classList.remove("hidden"); 
+    overlay.classList.remove("hidden");
+
+    const datas = await fetchCartData();
+    console.log(datas);
+
+    const sameProduct = datas.find(item =>
+        item.product_id === currentSelection.id &&
+        item.color === currentSelection.color &&
+        item.size === currentSelection.size
+    );
+
+    if(sameProduct){
+        await updateQuantityData(sameProduct);
+    } else {
+        await handleAddToCartClick();
     }
-}
-productDetailsContainer.addEventListener("click", handleAddToCartClick);
-*/
+    const updatedCart = await fetchCartData();
+    renderCarts(updatedCart);
+};
+productDetailsContainer.addEventListener("click", getCartData);
 
 
 

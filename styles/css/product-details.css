@@ -147,7 +147,26 @@ input[type=email]:focus {
 .product-details .product-description .wrapper-color-size-quantity {
   display: flex;
   flex-direction: column;
-  gap: 1.8rem;
+  gap: 3rem;
+}
+.product-details .product-description__title-price-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+.product-details .product-description .price {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #10151F;
+}
+.product-details .product-description __title {
+  font-size: 1rem;
+  color: #10151F;
+}
+.product-details .product-description-colors {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 .product-details .product-description-colors__content {
   display: flex;
@@ -159,24 +178,35 @@ input[type=email]:focus {
   border-radius: 50%;
   background-color: pink;
 }
+.product-details .product-description-sizes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
 .product-details .product-description-sizes__content {
   display: flex;
   gap: 0.5rem;
 }
-.product-details .product-description-sizes__content > div {
+.product-details .product-description-sizes__content .size {
   width: 4.4rem;
   height: 2.6rem;
   border: 0.06px solid #E1DFE1;
   border-radius: 9px;
   font-size: 1rem;
   color: #10151F;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.product-details .product-description-sizes__content div:hover {
+.product-details .product-description-sizes__content .size:hover {
   border: 0.06px solid #10151F;
   background-color: #F8F6F7;
+}
+.product-details .product-description-quantity {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 .product-details .product-description-quantity__content {
   display: flex;
@@ -189,6 +219,7 @@ input[type=email]:focus {
   border-radius: 9px;
   font-size: 1rem;
   color: #10151F;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -196,17 +227,18 @@ input[type=email]:focus {
 }
 .product-details .product-description-quantity__content > :nth-child(2) {
   width: 4.4rem;
-  height: 20rem;
+  height: 24rem;
   border: 0.06px solid #E1DFE1;
   border-radius: 9px;
   font-size: 1rem;
   color: #10151F;
   padding: 0.5rem 0;
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  gap: 0.5rem;
+  gap: 0.7rem;
 }
 .product-details .product-description-btn {
   width: 100%;
@@ -244,7 +276,7 @@ input[type=email]:focus {
 }
 .product-details .product-description-brand-materials div .title {
   font-size: 1.24rem;
-  font-weight: 500;
+  font-weight: 600;
 }
 .product-details .product-description-brand-materials div img {
   width: 6.8rem;
@@ -386,6 +418,12 @@ input[type=email]:focus {
 .active {
   outline: 2px solid #E1DFE1;
   outline-offset: 2px;
+}
+
+.selected {
+  border: none;
+  border: 0.06px solid #10151F !important;
+  background-color: #F8F6F7 !important;
 }
 
 .activeImg {
