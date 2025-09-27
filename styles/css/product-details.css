@@ -374,9 +374,10 @@ input[type=email]:focus {
   border: 0.1px solid #E1DFE1;
   border-radius: 9px;
   padding: 0.1rem 0.8rem;
+  cursor: pointer;
 }
 .shopping-cart-window .product-details__description-quantity-controller span {
-  font-size: 0.875rem;
+  font-size: 1rem;
 }
 .shopping-cart-window .product-details__description-btn-remove {
   font-size: 0.75rem;

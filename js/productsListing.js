@@ -139,7 +139,7 @@ const renderListingWithPagination = async function (page = 1) {
   
     fetchedData.data.map(data => {
           const html = `
-          <div class="clothing-listing__card" dataset = ${data.id}>
+          <div class="clothing-listing__card" data-id = ${data.id}>
               <img src="${data.cover_image}">
               <p>${data.name}</p>
               <p>$ ${data.price}</p>
@@ -173,7 +173,7 @@ const renderListingWithPagination = async function (page = 1) {
     cards.forEach((card) =>
       card.addEventListener("click", function () {
         window.location.href="./pages/product-details.html";
-        const pageId = card.getAttribute("dataset");
+        const pageId = card.getAttribute("data-id");
         localStorage.setItem("page-id", pageId);
       })
     );

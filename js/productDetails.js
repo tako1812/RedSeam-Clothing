@@ -205,6 +205,7 @@ productDetailsContainer.addEventListener("click", handleImageColorClick);
 
 
 
+
 const quantityDropdown = function(e){
     const quantityDropdown = document.querySelector('.product-description-quantity__container');
     const selectedQuantity = document.querySelector('.selected-quantity');
@@ -215,25 +216,25 @@ const quantityDropdown = function(e){
     }
     else if (e.target.classList.contains('quantity')) {
         selectedQuantity.textContent = e.target.textContent;
+        currentSelection.quantity = Number(selectedQuantity.textContent);
         quantityDropdown.classList.add('hidden');
     }
 }
 productDetailsContainer.addEventListener("click", quantityDropdown);
 
-/*
-document.querySelector('.add-to-cart').addEventListener('click', function() {
-    console.log(222);
-    
-});
-*/
+
+
+
+
+
+
+
 const shoppingCartWindow = document.querySelector(".shopping-cart-window");
 const overlay = document.querySelector(".overlay");
 
-const sss = document.querySelector(".add-to-cart");
 
 
 const handleAddToCartClick = async function() {
-    //if (e.target.classList.contains('add-to-cart')) {
         const productId = currentSelection.id; // or whatever identifies the product
         const cartData = {
             color: currentSelection.color,
@@ -262,7 +263,6 @@ const handleAddToCartClick = async function() {
         } catch (err) {
             console.error('Network error:', err);
         }
-    //}
 };
 
 const updateQuantityData = async function(sameProduct){
@@ -294,7 +294,7 @@ const renderCarts = function(cart){
     cart.forEach(item => {
         const selectedColorIndex = item.available_colors.findIndex(color => color === item.color);
         const html = `
-        <div class="product-details">
+        <div class="product-details" data-cart=${item.id} data-color="${item.color}" data-size="${item.size}">
             <img src="${item.images[selectedColorIndex]}" alt="${item.name}">
             <div class="product-details__description">
                 <div class="product-details__description__title-btn-container">
@@ -320,7 +320,7 @@ const renderCarts = function(cart){
     });
 };
 
-
+let cardsData;
 const fetchCartData = async function() {
     const res = await fetch(
         `https://api.redseam.redberryinternship.ge/api/cart`,
@@ -342,10 +342,10 @@ const getCartData = async function(e){
     shoppingCartWindow.classList.remove("hidden"); 
     overlay.classList.remove("hidden");
 
-    const datas = await fetchCartData();
-    console.log(datas);
+    cardsData = await fetchCartData();
+    console.log(cardsData);
 
-    const sameProduct = datas.find(item =>
+    const sameProduct = cardsData.find(item =>
         item.product_id === currentSelection.id &&
         item.color === currentSelection.color &&
         item.size === currentSelection.size
@@ -362,12 +362,72 @@ const getCartData = async function(e){
 productDetailsContainer.addEventListener("click", getCartData);
 
 
+/*
+<span class="quantity-controller__minus">-</span>
+                        <span class="quantity-controller__value">${item.quantity}</span>
+                        <span class="quantity-controller__plus">+</span>
+
+                         currentSelection.quantity = Number(selectedQuantity.textContent);
+*/
+const changeQuantityFromCart = function(e){
+    
+    if(e.target.classList.contains("quantity-controller__minus")){
+        currentSelection.quantity --;
+
+    }
+    if(e.target.classList.contains("quantity-controller__plus")){
+        currentSelection.quantity ++;
+
+    }
+};
+
+
+const updateQuantityWithControllers = async function(cartItem){
+    try {
+        const response = await fetch(`https://api.redseam.redberryinternship.ge/api/cart/products/${cartItem.id}`, {
+            method: 'PATCH',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({quantity: cartItem.quantity})
+        });
+
+    } catch (err) {
+        console.error('Network error:', err);
+    }
+}
 
 
 
 
 
+cartsContainer.addEventListener("click", function(e){
+  const cart = e.target.closest(".product-details");
+  if (!cart) return;
 
+  const cartId = Number(cart.dataset.cart);
+  const cartColor = cart.dataset.color;
+  const cartSize = cart.dataset.size;
+
+  const cartItem = cardsData.find(item => item.id === cartId && item.color === cartColor && item.size === cartSize);
+  
+    if(e.target.classList.contains("quantity-controller__minus")){
+        if(cartItem.quantity > 1) {
+            cartItem.quantity -= 1;
+            updateQuantityWithControllers(cartItem);
+            renderCarts(cardsData);
+        }
+    }
+    
+    if(e.target.classList.contains("quantity-controller__plus")){
+        console.log(222);
+        cartItem.quantity += 1;
+        updateQuantityWithControllers(cartItem);
+        renderCarts(cardsData);
+    }
+  
+});
 
 
 
