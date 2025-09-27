@@ -287,7 +287,7 @@ const updateQuantityData = async function(sameProduct){
         console.error('Network error:', err);
     }
 }
-
+/*
 const renderCarts = function(cart){
     cartsContainer.innerHTML = "";
 
@@ -319,7 +319,38 @@ const renderCarts = function(cart){
 
     });
 };
+*/
 
+const renderCarts = function(cart){
+    let html = "";
+    cart.forEach(item => {
+        const selectedColorIndex = item.available_colors.findIndex(color => color === item.color);
+        const imageSrc = selectedColorIndex !== -1 ? item.images[selectedColorIndex] : item.cover_image;
+
+        html += `
+        <div class="product-details" data-cart="${item.id}" data-color="${item.color}" data-size="${item.size}">
+            <img src="${imageSrc}" alt="${item.name}">
+            <div class="product-details__description">
+                <div class="product-details__description__title-btn-container">
+                    <p class="product-details__description-title">${item.name}</p>
+                    <p class="product-details__description-price">$ ${item.price}</p>
+                </div>
+                <p class="product-details__description-color">${item.color}</p>
+                <p class="product-details__description-size">${item.size}</p>
+                <div class="product-details__description__quantity-controller-btn-container">
+                    <div class="product-details__description-quantity-controller">
+                        <span class="quantity-controller__minus">-</span>
+                        <span class="quantity-controller__value">${item.quantity}</span>
+                        <span class="quantity-controller__plus">+</span>
+                    </div>
+                    <button class="btn product-details__description-btn-remove">Remove</button>
+                </div>
+            </div>
+        </div>
+        `;
+    });
+    cartsContainer.innerHTML = html;
+};
 let cardsData;
 const fetchCartData = async function() {
     const res = await fetch(
@@ -362,13 +393,7 @@ const getCartData = async function(e){
 productDetailsContainer.addEventListener("click", getCartData);
 
 
-/*
-<span class="quantity-controller__minus">-</span>
-                        <span class="quantity-controller__value">${item.quantity}</span>
-                        <span class="quantity-controller__plus">+</span>
 
-                         currentSelection.quantity = Number(selectedQuantity.textContent);
-*/
 const changeQuantityFromCart = function(e){
     
     if(e.target.classList.contains("quantity-controller__minus")){
@@ -398,13 +423,9 @@ const updateQuantityWithControllers = async function(cartItem){
     }
 }
 
-
-
-
-
-cartsContainer.addEventListener("click", function(e){
-  const cart = e.target.closest(".product-details");
-  if (!cart) return;
+const updateRenderQuantityWithControllers = function(e){
+    const cart = e.target.closest(".product-details");
+    if (!cart) return;
 
   const cartId = Number(cart.dataset.cart);
   const cartColor = cart.dataset.color;
@@ -426,25 +447,48 @@ cartsContainer.addEventListener("click", function(e){
         updateQuantityWithControllers(cartItem);
         renderCarts(cardsData);
     }
+
+}
+cartsContainer.addEventListener("click", updateRenderQuantityWithControllers);
+
+
+
+const deleteCartItem = async function(cartItem){
+    try {
+        const response = await fetch(`https://api.redseam.redberryinternship.ge/api/cart/products/${cartItem.id}`, {
+            method: 'DELETE',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            }
+        });
+
+    } catch (err) {
+        console.error('Network error:', err);
+    }
+}
+const removeCartItemRerender = function(e){
+  const cart = e.target.closest(".product-details");
+  if (!cart) return;
+
+  const cartId = Number(cart.dataset.cart);
+  const cartColor = cart.dataset.color;
+  const cartSize = cart.dataset.size;
+
+  const cartItem = cardsData.find(item => item.id === cartId && item.color === cartColor && item.size === cartSize);
   
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  console.log(cartItem);
+  
+    if(e.target.classList.contains("product-details__description-btn-remove")){
+        console.log(222);
+        deleteCartItem(cartItem);
+        const index = cardsData.findIndex(item => item.id === cartId && item.color === cartColor && item.size === cartSize);
+        console.log(index);
+        if (index !== -1) cardsData.splice(index, 1);
+        renderCarts(cardsData);    
+    }
+}
+cartsContainer.addEventListener("click", removeCartItemRerender);
 
 
 
