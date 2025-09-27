@@ -1,8 +1,10 @@
 "use strict";
 const pageId = localStorage.getItem("page-id");
 const productDetailsContainer = document.querySelector(".product-details");
+const cartsContainer = document.querySelector(".cards-container");
+const token = localStorage.getItem("authToken");
 
-//product-details
+
 
 let colorsData =[];
 let sizeData =[];
@@ -10,6 +12,7 @@ let imagesData =[];
 let availableColors = ""
 
 const currentSelection = {
+  id: null,
   color: null,
   image: null,
   size: null,
@@ -39,6 +42,8 @@ const createCardDetails = async function () {
     colorsData =datas.available_colors;
     sizeData =datas.available_sizes;
     imagesData=datas.images;
+
+    currentSelection.id = pageId;
     currentSelection.name = datas.name;
     currentSelection.price = datas.price;
     currentSelection.productId = datas.id;
@@ -81,7 +86,7 @@ const createCardDetails = async function () {
                     </div>
                 </div>
                 <div class="product-description-quantity">
-                    <p class="product-description__title quantity-item">Quantity: L</p>
+                    <p class="product-description__title quantity-item">Quantity: 1</p>
                     <div class="product-description-quantity__content">
                         <div class="selected-quentity-container">
                             <span class="selected-quantity">1</span>
@@ -201,24 +206,157 @@ const quantityDropdown = function(e){
 }
 productDetailsContainer.addEventListener("click", quantityDropdown);
 
-
+/*
 document.querySelector('.add-to-cart').addEventListener('click', function() {
     console.log(222);
     
 });
+*/
+const shoppingCartWindow = document.querySelector(".shopping-cart-window");
+const overlay = document.querySelector(".overlay");
 
 
-const ddd = function(e) {
+const handleAddToCartClick = async function(e) {
+    if (e.target.classList.contains('add-to-cart')) {
+        const productId = currentSelection.id; // or whatever identifies the product
+        const cartData = {
+            color: currentSelection.color,
+            size: currentSelection.size,
+            quantity: currentSelection.quantity,
+        };
+
+        try {
+            const response = await fetch(`https://api.redseam.redberryinternship.ge/api/cart/products/${productId}`, {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(cartData)
+            });
+
+            if (response.ok) {
+                // Optionally update UI, show success message, etc.
+                console.log('Added to cart!');
+            } else {
+                // Handle error (show error message)
+                console.error('Failed to add to cart');
+            }
+        } catch (err) {
+            console.error('Network error:', err);
+        }
+    }
+};
+productDetailsContainer.addEventListener("click", handleAddToCartClick);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+const renderCarts = function(cart){
+    cartsContainer.innerHTML="";
+
+    const sss = cart.map(cart => (cart.color, cart.size));
+    console.log(sss);
+    const html =cart.map(cart => `
+
+        <div class="product-details">
+            <img src="${cart.image}" alt="${cart.name}">
+            <div class="product-details__description">
+                <div class="product-details__description__title-btn-container">
+                    <p class="product-details__description-title">${cart.name}</p>
+                        <p class="product-details__description-price">$ ${cart.price}</p>
+                </div>
+                <p class="product-details__description-color">${cart.color}</p>
+                <p class="product-details__description-size">L</p>
+                <div class="product-details__description__quantity-controller-btn-container">
+                    <div class="product-details__description-quantity-controller">
+                        <span class="quantity-controller__minus">-</span>
+                        <span class="quantity-controller__value">${cart.quantity}</span>
+                        <span class="quantity-controller__plus">+</span>
+                    </div>
+                    <button class="btn product-details__description-btn-remove">Remove</button>
+                </div>
+            </div>
+        </div>
+
+    `);
+    cartsContainer.insertAdjacentHTML("beforeend", html);
+};*/
+/*
+
+shoppingCartWindow.classList.remove("hidden");
+        overlay.classList.remove("hidden");
+        renderCarts(cart);
+
+*/
+
+/*
+const handleAddToCartClick = function(e) {
     if (e.target.classList.contains('add-to-cart')) {
         let cart = JSON.parse(localStorage.getItem("cart") || "[]");
         cart.push({...currentSelection});
         localStorage.setItem("cart", JSON.stringify(cart));
-        console.log(cart);
-        alert("Added to cart!");
     }
 }
+productDetailsContainer.addEventListener("click", handleAddToCartClick);
+*/
 
-productDetailsContainer.addEventListener("click", ddd);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

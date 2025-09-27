@@ -4,43 +4,43 @@ const filterByPrice = document.querySelector(".listing-controls-filter-by-price_
 const sortByContainer = document.querySelector(".listing-controls-sort-by__container");
 const sortByBtn = document.querySelector(".listing-controls-sort-by");
 const listingControlsContainer = document.querySelector(".listing-controls");
-
-
-
-const toggleListingControls= function(e) {
-    const clicked = e.target.closest(".controls-btn");
-    if(!clicked) return;
-    
-    const container = clicked.nextElementSibling;
-    container.classList.toggle("hidden");
-}
-listingControlsContainer.addEventListener("click", toggleListingControls);
-
-
+const selectedPriceRangeContainer = document.querySelector(".selected-price-range-container");
+const btnApply = document.querySelector(".btn-apply");
+const selectedPriceRange = document.querySelector(".selected-price-range");
 const filterByPriceContainer = document.querySelector(".listing-controls-filter-by-price");
+const headingControlsContainer = document.querySelector(".heading-controls-container");
+
+
 let minPrice=0;
 let maxPrice=0;
-
-
-const savePriceRange = function() {
-    const minInput = filterByPriceContainer.querySelector(".min-price").value;
-    const maxInput = filterByPriceContainer.querySelector(".max-price").value;
-
-    minPrice = minInput;
-    maxPrice = maxInput;
-};
-filterByPriceContainer .addEventListener("input", savePriceRange);
-
-
-
 let currentPage = 1;
 let lastPage = 1;
 let isFilteredMode = false;
 let isSortingModeReleaseedYear = false;
 let isSortingModeLowToHigh = false;
 let isSortingModeHighToLow = false;
-
 let filteredResults = [];
+
+
+
+
+const toggleListingControls= function(e) {
+    const clicked = e.target.closest(".controls-btn");
+    if(!clicked) return;    
+    const container = clicked.nextElementSibling;
+    container.classList.toggle("hidden");
+}
+listingControlsContainer.addEventListener("click", toggleListingControls);
+
+
+const savePriceRange = function() {
+    const minInput = filterByPriceContainer.querySelector(".min-price").value;
+    const maxInput = filterByPriceContainer.querySelector(".max-price").value;
+    minPrice = minInput;
+    maxPrice = maxInput;
+};
+filterByPriceContainer .addEventListener("input", savePriceRange);
+
 
 function getItemsForPage(data, page = 1, perPage = 10) {
   const start = (page - 1) * perPage;
@@ -48,11 +48,6 @@ function getItemsForPage(data, page = 1, perPage = 10) {
   return data.slice(start, end);
 }
 
-
-const selectedPriceRangeContainer = document.querySelector(".selected-price-range-container");
-const btnApply = document.querySelector(".btn-apply");
-
-const selectedPriceRange = document.querySelector(".selected-price-range");
 
 const displaySelectedPriceRange = async function() {
     if ((minPrice > 0 && maxPrice > 0) && (minPrice < maxPrice)) { 
@@ -66,21 +61,18 @@ const displaySelectedPriceRange = async function() {
         selectedPriceRangeContainer.innerHTML = html;
         selectedPriceRange.classList.remove("hidden");
         filterByPrice.classList.add("hidden");
-  }
-  
+  }  
     isFilteredMode = true;
     const filteredlistingData = await filterListingsByPrice();   
     //const filteredlistingData = await fetchFilteredData();
     filteredResults = filteredlistingData;
     console.log(filteredResults);
     renderFilterWithPagination(filteredResults, undefined);
-
 };
 btnApply.addEventListener("click", displaySelectedPriceRange);
 
 
 
-const headingControlsContainer = document.querySelector(".heading-controls-container");
 
 
 
@@ -88,7 +80,6 @@ const hideSelectedPriceRangeContainer = function(e) {
     const selectedPriceRange=document.querySelector(".selected-price-range");
     
     if(e.target.classList.contains("close-icon")){
-    
         selectedPriceRange.classList.add("hidden");
         filterByPrice.classList.add("hidden");
 
@@ -286,9 +277,6 @@ const renderSortedByLowToHigh= function (page = 1) {
     }
     paginationContainer.innerHTML = html;
 };
-
-
-
 const renderSortedByHighToLow= function (page = 1) {
     clothingListingContainer.innerHTML = "";
     const items = getItemsForPage(dataSortByHighToLow, page, 10);
@@ -314,10 +302,6 @@ const renderSortedByHighToLow= function (page = 1) {
     }
     paginationContainer.innerHTML = html;
 };
-
-
-
-
 
 const moveToNextPageWithBtn = function(e) {
     let currentPage = 1;
