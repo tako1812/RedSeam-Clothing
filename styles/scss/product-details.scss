@@ -387,6 +387,75 @@
 .activeImg{
     border: 1.2px solid global.$border-color;
     border-radius: 5px;
-    
-  
+}
+
+.shopping-cart-window-inital{
+    position: fixed;
+    right: 0;
+    top: 0;     
+    right: 0;   
+    bottom: 0; 
+    width: 34rem;
+    height: 100%;
+    background-color: global.$color-white;
+    z-index: 1000;
+
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding:2.5rem 2rem;
+
+    &-container{
+        display:flex;
+        flex-direction: column;
+        gap:15rem;
+    }
+
+
+     .container{
+        display:flex;
+        flex-direction: column;
+        gap:2rem;
+
+     }
+
+
+    .container-busket{
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap:1rem;
+        img{
+            width:7.5rem;
+            height:7rem;
+        }
+        .info{
+            font-size: 1.5rem;
+            color: global.$text-color-dark;
+            font-weight: 700;
+        }
+        .info-text{
+          font-size: 0.875rem;
+          color: global.$text-color-light;
+        }
+        .product-busket-icon{
+        position:absolute;
+        top: 21%;
+        width:5.9rem;
+        height:1.6rem;
+        }
+    }
+    .start-shopping-btn{
+        font-family: inherit; 
+        padding:0.8rem 1.6rem;
+        background-color: global.$button-background;
+        color:global.$button-color;
+        font-size: 0.9rem;
+        border-radius:10px;
+        width:50%;
+
+        align-self: center;
+    }
 }

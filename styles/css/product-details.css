@@ -370,7 +370,7 @@ input[type=email]:focus {
 .shopping-cart-window .product-details__description-quantity-controller {
   display: flex;
   align-self: flex-start;
-  gap: 0.5rem;
+  gap: 0.6rem;
   border: 0.1px solid #E1DFE1;
   border-radius: 9px;
   padding: 0.1rem 0.8rem;
@@ -430,4 +430,67 @@ input[type=email]:focus {
 .activeImg {
   border: 1.2px solid #E1DFE1;
   border-radius: 5px;
+}
+
+.shopping-cart-window-inital {
+  position: fixed;
+  right: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 34rem;
+  height: 100%;
+  background-color: #FFf;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2.5rem 2rem;
+}
+.shopping-cart-window-inital-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15rem;
+}
+.shopping-cart-window-inital .container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.shopping-cart-window-inital .container-busket {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+.shopping-cart-window-inital .container-busket img {
+  width: 7.5rem;
+  height: 7rem;
+}
+.shopping-cart-window-inital .container-busket .info {
+  font-size: 1.5rem;
+  color: #10151F;
+  font-weight: 700;
+}
+.shopping-cart-window-inital .container-busket .info-text {
+  font-size: 0.875rem;
+  color: #3E424A;
+}
+.shopping-cart-window-inital .container-busket .product-busket-icon {
+  position: absolute;
+  top: 21%;
+  width: 5.9rem;
+  height: 1.6rem;
+}
+.shopping-cart-window-inital .start-shopping-btn {
+  font-family: inherit;
+  padding: 0.8rem 1.6rem;
+  background-color: #FF4000;
+  color: #FFf;
+  font-size: 0.9rem;
+  border-radius: 10px;
+  width: 50%;
+  align-self: center;
 }

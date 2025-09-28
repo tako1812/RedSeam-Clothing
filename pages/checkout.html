@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RedSeam Clothing</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/css/checkout.css">
+  </head>
+    <body>
+        <header>
+            <div id="header"></div>
+        </header>
+        <main>
+            <section class="checkout">
+                <h2 class="heading-primary">Checkout</h2>
+                <div class="checkout-cart-container">
+                    <div class="checkout-container">
+                        <div class="checkout-box">
+                            <p >Order details</p>
+                            <form class="form  inputs-container">
+                                <div class="input-wrapper">
+                                    <input type="text" name="name" placeholder="Name" class="name"/>
+                                    <input type="text" name="surname" placeholder="Surname" class="surname"/>
+                                </div>
+                                <div class="input-wrapper-email">
+                                    <input type="text" name="email" placeholder="Email" class="email email-container"/>
+                                    <img class="email-icon" src="/img/icons/Vector.png" alt="email-icon"/>
+                                </div>
+                                <div class="input-wrapper">
+                                    <input type="text" name="address" placeholder="Address" class="Address"/>
+                                    <input type="text" name="zipcode" placeholder="Zip code" class="zip-code" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="shopping-cart-window">
+                        <div class="shopping-carts-container">
+                            <div class="cards-container">
+                                <div class="product-details">
+                                    <img src="/img/images/product-item.png" alt="t-shirt">
+                                    <div class="product-details__description">
+                                        <div class="product-details__description__title-btn-container">
+                                            <p class="product-details__description-title">Kids' Curved Hilfiger Graphic T-Shirt</p>
+                                            <p class="product-details__description-price">$ 25</p>
+                                        </div>
+                                        <p class="product-details__description-color">Baby pink</p>
+                                        <p class="product-details__description-size">L</p>
+                                        <div class="product-details__description__quantity-controller-btn-container">
+                                            <div class="product-details__description-quantity-controller">
+                                                <span class="quantity-controller__minus">-</span>
+                                                <span class="quantity-controller__value">1</span>
+                                                <span class="quantity-controller__plus">+</span>
+                                            </div>
+                                            <button class="btn product-details__description-btn-remove">Remove</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cards-container">
+                                <div class="product-details">
+                                    <img src="/img/images/product-item.png" alt="t-shirt">
+                                    <div class="product-details__description">
+                                        <div class="product-details__description__title-btn-container">
+                                            <p class="product-details__description-title">Kids' Curved Hilfiger Graphic T-Shirt</p>
+                                            <p class="product-details__description-price">$ 25</p>
+                                        </div>
+                                        <p class="product-details__description-color">Baby pink</p>
+                                        <p class="product-details__description-size">L</p>
+                                        <div class="product-details__description__quantity-controller-btn-container">
+                                            <div class="product-details__description-quantity-controller">
+                                                <span class="quantity-controller__minus">-</span>
+                                                <span class="quantity-controller__value">1</span>
+                                                <span class="quantity-controller__plus">+</span>
+                                            </div>
+                                            <button class="btn product-details__description-btn-remove">Remove</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="shopping-cart-summary">
+                            <div class="shopping-cart-summary-price-summary">
+                                <div class="container subtotal">
+                                    <p class="subtotal-title">Items subtotal</p>
+                                    <p class="subtotal-amount">$ 50</p>
+                                </div>
+                                <div class="container delivery">
+                                    <p class="delivery-title">Delivery</p>
+                                    <p class="delivery-amount">$ 5</p>
+                                </div>
+                                <div class="container total">
+                                    <p class="total-title">total</p>
+                                    <p class="total-amount">$ 55</p>
+                                </div>
+                            </div>
+                            <button class="btn btn-pay">Pay</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="overlay hidden"></div>
+            <div class="congrats-window">
+                <div class="congrats-window-container">
+                    <img src="/img/icons/x-mark.png"class="close-icon">
+                    <div class="container">
+                        <div class="items-container">
+                            <img src="/img/icons/Vector (4).png" alt="background color image">
+                            <img class="product-busket-icon" src="/img/icons/Vector (3).png" alt="product busket icon">
+                            <p class="info">Ooops!</p>
+                            <p class="info-text">You've got nothing in your cart just yet..</p>
+                        </div>
+                        <button class="btn start-shopping-btn">Start Shopping</button>
+                    </div>
+
+                </div>
+            </div>
+            
+        </main>
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>  
+        <script src="../js/header.js"></script> 
+    </body>
+</html>

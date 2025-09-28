@@ -451,8 +451,6 @@ const updateRenderQuantityWithControllers = function(e){
 }
 cartsContainer.addEventListener("click", updateRenderQuantityWithControllers);
 
-
-
 const deleteCartItem = async function(cartItem){
     try {
         const response = await fetch(`https://api.redseam.redberryinternship.ge/api/cart/products/${cartItem.id}`, {
@@ -470,14 +468,11 @@ const deleteCartItem = async function(cartItem){
 const removeCartItemRerender = function(e){
   const cart = e.target.closest(".product-details");
   if (!cart) return;
-
   const cartId = Number(cart.dataset.cart);
   const cartColor = cart.dataset.color;
   const cartSize = cart.dataset.size;
 
   const cartItem = cardsData.find(item => item.id === cartId && item.color === cartColor && item.size === cartSize);
-  
-  console.log(cartItem);
   
     if(e.target.classList.contains("product-details__description-btn-remove")){
         console.log(222);
